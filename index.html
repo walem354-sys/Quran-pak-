@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quran Pak - Holy Quran</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f4f7f5;
+  color:#222;
+}
+header{
+  background:#075e54;
+  color:white;
+  text-align:center;
+  padding:25px 10px;
+}
+header h1{
+  margin:0;
+  font-size:30px;
+}
+header p{
+  margin:8px 0 0;
+}
+.container{
+  max-width:800px;
+  margin:20px auto;
+  padding:10px;
+}
+.search{
+  width:100%;
+  box-sizing:border-box;
+  padding:14px;
+  border:1px solid #ccc;
+  border-radius:10px;
+  font-size:17px;
+  margin-bottom:15px;
+}
+.surah{
+  background:white;
+  margin-bottom:10px;
+  padding:16px;
+  border-radius:12px;
+  box-shadow:0 2px 7px rgba(0,0,0,.08);
+  cursor:pointer;
+}
+.surah-number{
+  display:inline-block;
+  background:#075e54;
+  color:white;
+  width:35px;
+  height:35px;
+  line-height:35px;
+  text-align:center;
+  border-radius:50%;
+  margin-left:10px;
+}
+.surah-name{
+  font-size:21px;
+  font-weight:bold;
+}
+.back{
+  background:#075e54;
+  color:white;
+  border:0;
+  padding:12px 20px;
+  border-radius:8px;
+  font-size:16px;
+  cursor:pointer;
+}
+.ayah{
+  background:white;
+  margin:12px 0;
+  padding:20px;
+  border-radius:12px;
+  line-height:2.3;
+  font-size:23px;
+}
+.hidden{
+  display:none;
+}
+footer{
+  text-align:center;
+  padding:25px;
+  color:#666;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>قرآن پاک</h1>
+<p>Holy Quran</p>
+</header>
+
+<div class="container">
+
+<div id="home">
+
+<input
+class="search"
+id="search"
+type="text"
+placeholder="سورت تلاش کریں..."
+onkeyup="searchSurah()">
+
+<div id="surahList">
+
+<div class="surah" onclick="openSurah('الفاتحہ',[
+'الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ',
+'الرَّحْمَٰنِ الرَّحِيمِ',
+'مَالِكِ يَوْمِ الدِّينِ',
+'إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ',
+'اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ'
+])">
+<span class="surah-number">1</span>
+<span class="surah-name">الفاتحہ</span>
+</div>
+
+<div class="surah" onclick="openSurah('البقرہ',[
+'الم',
+'ذَٰلِكَ الْكِتَابُ لَا رَيْبَ فِيهِ',
+'هُدًى لِّلْمُتَّقِينَ',
+'الَّذِينَ يُؤْمِنُونَ بِالْغَيْبِ'
+])">
+<span class="surah-number">2</span>
+<span class="surah-name">البقرہ</span>
+</div>
+
+<div class="surah">
+<span class="surah-number">3</span>
+<span class="surah-name">آل عمران</span>
+</div>
+
+<div class="surah">
+<span class="surah-number">4</span>
+<span class="surah-name">النساء</span>
+</div>
+
+<div class="surah">
+<span class="surah-number">5</span>
+<span class="surah-name">المائدہ</span>
+</div>
+
+<div class="surah">
+<span class="surah-number">6</span>
+<span class="surah-name">الانعام</span>
+</div>
+
+<div class="surah">
+<span class="surah-number">7</span>
+<span class="surah-name">الاعراف</span>
+</div>
+
+<div class="surah">
+<span class="surah-number">8</span>
+<span class="surah-name">الانفال</span>
+</div>
+
+<div class="surah">
+<span class="surah-number">9</span>
+<span class="surah-name">التوبہ</span>
+</div>
+
+<div class="surah">
+<span class="surah-number">10</span>
+<span class="surah-name">یونس</span>
+</div>
+
+</div>
+</div>
+
+<div id="reader" class="hidden">
+
+<button class="back" onclick="goBack()">← واپس</button>
+
+<h2 id="surahTitle"></h2>
+
+<div id="ayahs"></div>
+
+</div>
+
+</div>
+
+<footer>
+قرآن پاک — Holy Quran
+</footer>
+
+<script>
+
+function openSurah(name,ayahs){
+
+document.getElementById("home").classList.add("hidden");
+
+document.getElementById("reader").classList.remove("hidden");
+
+document.getElementById("surahTitle").innerText=name;
+
+let html="";
+
+ayahs.forEach(function(ayah,index){
+
+html += '<div class="ayah">'+
+ayah+
+'<br><small>آیت نمبر: '+(index+1)+
+'</small></div>';
+
+});
+
+document.getElementById("ayahs").innerHTML=html;
+
+window.scrollTo(0,0);
+
+}
+
+function goBack(){
+
+document.getElementById("reader").classList.add("hidden");
+
+document.getElementById("home").classList.remove("hidden");
+
+}
+
+function searchSurah(){
+
+let input=document
+.getElementById("search")
+.value
+.toLowerCase();
+
+let surahs=document
+.querySelectorAll(".surah");
+
+surahs.forEach(function(surah){
+
+if(surah.innerText
+.toLowerCase()
+.includes(input)){
+
+surah.style.display="block";
+
+}else{
+
+surah.style.display="none";
+
+}
+
+});
+
+}
+
+</script>
+
+</body>
+</html>
