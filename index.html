@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>قرآن پاک</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#f4f7f5;
+  color:#222;
+}
+
+header{
+  background:#075e54;
+  color:white;
+  text-align:center;
+  padding:22px 15px;
+}
+
+header h1{
+  margin:0;
+  font-size:30px;
+}
+
+header p{
+  margin:8px 0 0;
+  font-size:15px;
+}
+
+.top{
+  padding:15px;
+  max-width:700px;
+  margin:auto;
+}
+
+.search{
+  width:100%;
+  padding:14px;
+  border:1px solid #ccc;
+  border-radius:12px;
+  font-size:17px;
+  outline:none;
+}
+
+.buttons{
+  display:flex;
+  gap:10px;
+  margin-top:12px;
+}
+
+button{
+  flex:1;
+  padding:12px;
+  border:0;
+  border-radius:10px;
+  background:#075e54;
+  color:white;
+  font-size:16px;
+}
+
+#surahList{
+  max-width:700px;
+  margin:auto;
+  padding:0 15px 30px;
+}
+
+.surah{
+  background:white;
+  margin:10px 0;
+  padding:16px;
+  border-radius:14px;
+  box-shadow:0 2px 8px rgba(0,0,0,.08);
+  cursor:pointer;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.surah:hover{
+  transform:scale(1.01);
+}
+
+.name{
+  font-size:21px;
+  font-weight:bold;
+}
+
+.number{
+  background:#075e54;
+  color:white;
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.dark{
+  background:#121212;
+  color:#eee;
+}
+
+.dark .surah{
+  background:#1e1e1e;
+  color:white;
+}
+
+.dark .search{
+  background:#222;
+  color:white;
+  border-color:#444;
+}
+
+#reader{
+  display:none;
+  max-width:700px;
+  margin:auto;
+  padding:20px;
+}
+
+.back{
+  margin-bottom:15px;
+}
+
+.ayah{
+  background:white;
+  margin:12px 0;
+  padding:20px;
+  border-radius:14px;
+  font-size:25px;
+  line-height:2;
+  text-align:right;
+}
+
+.dark .ayah{
+  background:#1e1e1e;
+}
+
+footer{
+  text-align:center;
+  padding:20px;
+  color:#777;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>📖 قرآن پاک</h1>
+  <p>قرآن مجید پڑھیں</p>
+</header>
+
+<div id="home">
+
+  <div class="top">
+    <input
+      id="search"
+      class="search"
+      type="text"
+      placeholder="سورت تلاش کریں..."
+      oninput="searchSurah()"
+    >
+
+    <div class="buttons">
+      <button onclick="toggleDark()">🌙 ڈارک موڈ</button>
+      <button onclick="showAll()">📖 تمام سورتیں</button>
+    </div>
+  </div>
+
+  <div id="surahList"></div>
+
+</div>
+
+<div id="reader">
+  <button class="back" onclick="goBack()">← واپس</button>
+  <h2 id="surahTitle"></h2>
+  <div id="ayahs"></div>
+</div>
+
+<footer>
+  قرآن پاک — اللہ تعالیٰ کا کلام
+</footer>
+
+<script>
+
+const surahs = [
+["الفاتحہ","Al-Fatihah"],
+["البقرہ","Al-Baqarah"],
+["آل عمران","Aal-Imran"],
+["النساء","An-Nisa"],
+["المائدہ","Al-Maidah"],
+["الانعام","Al-Anam"],
+["الاعراف","Al-Araf"],
+["الانفال","Al-Anfal"],
+["التوبہ","At-Tawbah"],
+["یونس","Yunus"],
+["ہود","Hud"],
+["یوسف","Yusuf"],
+["الرعد","Ar-Rad"],
+["ابراہیم","Ibrahim"],
+["الحجر","Al-Hijr"],
+["النحل","An-Nahl"],
+["الاسراء","Al-Isra"],
+["الکہف","Al-Kahf"],
+["مریم","Maryam"],
+["طٰہٰ","Ta-Ha"],
+["الانبیاء","Al-Anbiya"],
+["الحج","Al-Hajj"],
+["المؤمنون","Al-Muminun"],
+["النور","An-Nur"],
+["الفرقان","Al-Furqan"],
+["الشعراء","Ash-Shuara"],
+["النمل","An-Naml"],
+["القصص","Al-Qasas"],
+["العنکبوت","Al-Ankabut"],
+["الروم","Ar-Rum"],
+["لقمان","Luqman"],
+["السجدہ","As-Sajdah"],
+["الاحزاب","Al-Ahzab"],
+["سبا","Saba"],
+["فاطر","Fatir"],
+["یٰسین","Ya-Sin"],
+["الصافات","As-Saffat"],
+["ص","Sad"],
+["الزمر","Az-Zumar"],
+["غافر","Ghafir"],
+["فصلت","Fussilat"],
+["الشوریٰ","Ash-Shura"],
+["الزخرف","Az-Zukhruf"],
+["الدخان","Ad-Dukhan"],
+["الجاثیہ","Al-Jathiyah"],
+["الاحقاف","Al-Ahqaf"],
+["محمد","Muhammad"],
+["الفتح","Al-Fath"],
+["الحجرات","Al-Hujurat"],
+["ق","Qaf"],
+["الذاریات","Adh-Dhariyat"],
+["الطور","At-Tur"],
+["النجم","An-Najm"],
+["القمر","Al-Qamar"],
+["الرحمن","Ar-Rahman"],
+["الواقعہ","Al-Waqiah"],
+["الحدید","Al-Hadid"],
+["المجادلہ","Al-Mujadilah"],
+["الحشر","Al-Hashr"],
+["الممتحنہ","Al-Mumtahanah"],
+["الصف","As-Saff"],
+["الجمعہ","Al-Jumuah"],
+["المنافقون","Al-Munafiqun"],
+["التغابن","At-Taghabun"],
+["الطلاق","At-Talaq"],
+["التحریم","At-Tahrim"],
+["الملک","Al-Mulk"],
+["القلم","Al-Qalam"],
+["الحاقہ","Al-Haqqah"],
+["المعارج","Al-Maarij"],
+["نوح","Nuh"],
+["الجن","Al-Jinn"],
+["المزمل","Al-Muzzammil"],
+["المدثر","Al-Muddaththir"],
+["القیامہ","Al-Qiyamah"],
+["الانسان","Al-Insan"],
+["المرسلات","Al-Mursalat"],
+["النبأ","An-Naba"],
+["النازعات","An-Naziat"],
+["عبس","Abasa"],
+["التکویر","At-Takwir"],
+["الانفطار","Al-Infitar"],
+["المطففین","Al-Mutaffifin"],
+["الانشقاق","Al-Inshiqaq"],
+["البروج","Al-Buruj"],
+["الطارق","At-Tariq"],
+["الاعلیٰ","Al-Ala"],
+["الغاشیہ","Al-Ghashiyah"],
+["الفجر","Al-Fajr"],
+["البلد","Al-Balad"],
+["الشمس","Ash-Shams"],
+["اللیل","Al-Layl"],
+["الضحیٰ","Ad-Duha"],
+["الشرح","Ash-Sharh"],
+["التین","At-Tin"],
+["العلق","Al-Alaq"],
+["القدر","Al-Qadr"],
+["البینہ","Al-Bayyinah"],
+["الزلزال","Az-Zalzalah"],
+["العادیات","Al-Adiyat"],
+["القارعہ","Al-Qariah"],
+["التکاثر","At-Takathur"],
+["العصر","Al-Asr"],
+["الہمزہ","Al-Humazah"],
+["الفیل","Al-Fil"],
+["قریش","Quraysh"],
+["الماعون","Al-Maun"],
+["الکوثر","Al-Kawthar"],
+["الکافرون","Al-Kafirun"],
+["النصر","An-Nasr"],
+["المسد","Al-Masad"],
+["الاخلاص","Al-Ikhlas"],
+["الفلق","Al-Falaq"],
+["الناس","An-Nas"]
+];
+
+function displaySurahs(list = surahs){
+
+  const box = document.getElementById("surahList");
+  box.innerHTML = "";
+
+  list.forEach((surah,index)=>{
+
+    const div = document.createElement("div");
+    div.className = "surah";
+
+    div.innerHTML = `
+      <div>
+        <div class="name">${surah[0]}</div>
+        <small>${surah[1]}</small>
+      </div>
+      <div class="number">${surahs.indexOf(surah)+1}</div>
+    `;
+
+    div.onclick = ()=>openSurah(surahs.indexOf(surah));
+
+    box.appendChild(div);
+  });
+}
+
+function searchSurah(){
+
+  const text =
+    document.getElementById("search").value.toLowerCase();
+
+  const result = surahs.filter(s =>
+    s[0].includes(text) ||
+    s[1].toLowerCase().includes(text)
+  );
+
+  displaySurahs(result);
+}
+
+function showAll(){
+  document.getElementById("search").value="";
+  displaySurahs();
+}
+
+function toggleDark(){
+  document.body.classList.toggle("dark");
+}
+
+function openSurah(index){
+
+  document.getElementById("home").style.display="none";
+  document.getElementById("reader").style.display="block";
+
+  document.getElementById("surahTitle").innerText =
+    surahs[index][0];
+
+  document.getElementById("ayahs").innerHTML = `
+    <div class="ayah">
+      بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ
+    </div>
+
+    <div class="ayah">
+      اس سورت کی مکمل آیات اگلے مرحلے میں قرآن کے مستند متن کے ساتھ شامل کی جائیں گی۔
+    </div>
+  `;
+}
+
+function goBack(){
+  document.getElementById("reader").style.display="none";
+  document.getElementById("home").style.display="block";
+}
+
+displaySurahs();
+
+</script>
+
+</body>
+</html>
