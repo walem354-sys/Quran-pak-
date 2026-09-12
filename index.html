@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>القرآن الکریم</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  background:#e8dfc9;
+  font-family:Arial, sans-serif;
+  color:#3d2d18;
+}
+
+.header{
+  background:#174b3a;
+  color:white;
+  padding:15px 12px;
+  text-align:center;
+  box-shadow:0 2px 8px #0004;
+}
+
+.header h1{
+  font-family:serif;
+  font-size:27px;
+}
+
+.header p{
+  margin-top:5px;
+  font-size:13px;
+  opacity:.9;
+}
+
+.controls{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  flex-wrap:wrap;
+  padding:12px;
+  background:#f7f1df;
+}
+
+button, select{
+  border:none;
+  border-radius:8px;
+  padding:10px 14px;
+  background:#174b3a;
+  color:white;
+  font-size:14px;
+}
+
+button:active{
+  transform:scale(.96);
+}
+
+.reader{
+  max-width:650px;
+  margin:15px auto;
+  padding:10px;
+}
+
+.quran-page{
+  background:#fffdf5;
+  border:5px solid #b89552;
+  border-radius:8px;
+  min-height:720px;
+  padding:25px 18px;
+  box-shadow:0 5px 20px #0003;
+  position:relative;
+}
+
+.page-title{
+  text-align:center;
+  font-family:serif;
+  font-size:20px;
+  color:#174b3a;
+  margin-bottom:18px;
+  border-bottom:1px solid #c8ad73;
+  padding-bottom:10px;
+}
+
+.ayahs{
+  display:flex;
+  flex-direction:column;
+  gap:0;
+}
+
+.ayah{
+  min-height:39px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  direction:rtl;
+  font-family:"Times New Roman", serif;
+  font-size:22px;
+  line-height:1.8;
+  border-bottom:1px dotted #d4c59f;
+  padding:3px 2px;
+}
+
+.number{
+  color:#9a7735;
+  font-size:15px;
+  margin-right:5px;
+  white-space:nowrap;
+}
+
+.page-number{
+  text-align:center;
+  margin-top:15px;
+  font-size:14px;
+  color:#806735;
+}
+
+.navigation{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  margin-top:14px;
+}
+
+.navigation button{
+  flex:1;
+  padding:13px;
+  font-size:16px;
+}
+
+.info{
+  text-align:center;
+  margin:12px auto 25px;
+  color:#5c4a2b;
+  font-size:13px;
+}
+
+@media(max-width:500px){
+  .quran-page{
+    min-height:650px;
+    padding:18px 10px;
+  }
+
+  .ayah{
+    font-size:18px;
+    min-height:35px;
+  }
+
+  .header h1{
+    font-size:24px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+  <h1>القرآن الکریم</h1>
+  <p>قرآن پاک — 16 لائن فی صفحہ</p>
+</header>
+
+<div class="controls">
+
+  <select id="surahSelect" onchange="changeSurah()">
+    <option value="1">سورۃ الفاتحہ</option>
+    <option value="2">سورۃ البقرہ</option>
+    <option value="3">سورۃ آل عمران</option>
+    <option value="4">سورۃ النساء</option>
+    <option value="5">سورۃ المائدہ</option>
+    <option value="6">سورۃ الانعام</option>
+    <option value="7">سورۃ الاعراف</option>
+    <option value="8">سورۃ الانفال</option>
+    <option value="9">سورۃ التوبہ</option>
+    <option value="10">سورۃ یونس</option>
+  </select>
+
+  <button onclick="bookmark()">🔖 محفوظ کریں</button>
+  <button onclick="goTop()">⬆ اوپر</button>
+
+</div>
+
+<main class="reader">
+
+  <section class="quran-page">
+
+    <div class="page-title" id="surahTitle">
+      سورۃ الفاتحہ
+    </div>
+
+    <div class="ayahs" id="ayahContainer">
+
+      <div class="ayah">
+        بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ
+      </div>
+
+      <div class="ayah">
+        الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ
+        <span class="number">﴿١﴾</span>
+      </div>
+
+      <div class="ayah">
+        الرَّحْمَنِ الرَّحِيمِ
+        <span class="number">﴿٢﴾</span>
+      </div>
+
+      <div class="ayah">
+        مَالِكِ يَوْمِ الدِّينِ
+        <span class="number">﴿٣﴾</span>
+      </div>
+
+      <div class="ayah">
+        إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ
+        <span class="number">﴿٤﴾</span>
+      </div>
+
+      <div class="ayah">
+        اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ
+        <span class="number">﴿٥﴾</span>
+      </div>
+
+      <div class="ayah">
+        صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ
+        <span class="number">﴿٦﴾</span>
+      </div>
+
+      <div class="ayah">
+        غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ
+        <span class="number">﴿٧﴾</span>
+      </div>
+
+      <div class="ayah"></div>
+      <div class="ayah"></div>
+      <div class="ayah"></div>
+      <div class="ayah"></div>
+      <div class="ayah"></div>
+      <div class="ayah"></div>
+      <div class="ayah"></div>
+      <div class="ayah"></div>
+
+    </div>
+
+    <div class="page-number">
+      صفحہ <span id="pageNumber">1</span>
+    </div>
+
+  </section>
+
+  <div class="navigation">
+    <button onclick="previousPage()">◀ پچھلا صفحہ</button>
+    <button onclick="nextPage()">اگلا صفحہ ▶</button>
+  </div>
+
+  <div class="info">
+    قرآن پاک کو پڑھیں، سمجھیں اور دوسروں تک پہنچائیں
+  </div>
+
+</main>
+
+<script>
+
+let page = 1;
+
+const surahs = {
+  1:"سورۃ الفاتحہ",
+  2:"سورۃ البقرہ",
+  3:"سورۃ آل عمران",
+  4:"سورۃ النساء",
+  5:"سورۃ المائدہ",
+  6:"سورۃ الانعام",
+  7:"سورۃ الاعراف",
+  8:"سورۃ الانفال",
+  9:"سورۃ التوبہ",
+  10:"سورۃ یونس"
+};
+
+function changeSurah(){
+
+  let value =
+    document.getElementById("surahSelect").value;
+
+  document.getElementById("surahTitle").innerText =
+    surahs[value];
+
+  page = 1;
+
+  document.getElementById("pageNumber").innerText =
+    page;
+
+}
+
+function nextPage(){
+
+  page++;
+
+  document.getElementById("pageNumber").innerText =
+    page;
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+function previousPage(){
+
+  if(page > 1){
+    page--;
+  }
+
+  document.getElementById("pageNumber").innerText =
+    page;
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+function bookmark(){
+
+  localStorage.setItem(
+    "quranBookmark",
+    page
+  );
+
+  alert("صفحہ محفوظ ہوگیا: " + page);
+
+}
+
+function goTop(){
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+</script>
+
+</body>
+</html>
