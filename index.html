@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>القرآن الکریم</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+ background:#ddd3bb;
+ color:#342817;
+ font-family:Arial,sans-serif;
+}
+
+header{
+ background:#124735;
+ color:white;
+ text-align:center;
+ padding:16px 10px;
+ box-shadow:0 3px 12px #0005;
+}
+
+header h1{
+ font-family:"Times New Roman",serif;
+ font-size:28px;
+}
+
+header p{
+ font-size:12px;
+ margin-top:5px;
+}
+
+.toolbar{
+ background:#f8f1df;
+ padding:10px;
+ display:flex;
+ justify-content:center;
+ gap:7px;
+ flex-wrap:wrap;
+}
+
+.toolbar button,
+.toolbar select{
+ padding:9px 12px;
+ border:1px solid #a98a4d;
+ border-radius:8px;
+ background:#fffaf0;
+ color:#463719;
+}
+
+.reader{
+ max-width:680px;
+ margin:auto;
+ padding:10px 6px 30px;
+}
+
+.book{
+ perspective:1200px;
+}
+
+.page{
+ background:#fffdf5;
+ border:6px double #aa8849;
+ border-radius:5px;
+ min-height:720px;
+ padding:20px 12px 10px;
+ box-shadow:0 8px 25px #0004;
+ transition:.3s;
+}
+
+.page.turn-next{
+ animation:turnNext .45s ease;
+}
+
+.page.turn-prev{
+ animation:turnPrev .45s ease;
+}
+
+@keyframes turnNext{
+ from{
+  transform:rotateY(-12deg);
+  opacity:.3;
+ }
+ to{
+  transform:rotateY(0);
+  opacity:1;
+ }
+}
+
+@keyframes turnPrev{
+ from{
+  transform:rotateY(12deg);
+  opacity:.3;
+ }
+ to{
+  transform:rotateY(0);
+  opacity:1;
+ }
+}
+
+.surah{
+ text-align:center;
+ color:#124735;
+ font-family:"Times New Roman",serif;
+ font-size:23px;
+ padding-bottom:10px;
+ border-bottom:1px solid #c5ad78;
+}
+
+.bismillah{
+ text-align:center;
+ font-family:"Times New Roman",serif;
+ font-size:22px;
+ padding:8px 0;
+}
+
+.lines{
+ display:flex;
+ flex-direction:column;
+}
+
+.line{
+ min-height:39px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ text-align:center;
+ direction:rtl;
+ border-bottom:1px dotted #cbbb94;
+ font-family:"Times New Roman",serif;
+ font-size:21px;
+ line-height:1.8;
+}
+
+.page-number{
+ text-align:center;
+ color:#725a2c;
+ font-size:13px;
+ margin-top:9px;
+}
+
+.hint{
+ text-align:center;
+ color:#604d2c;
+ font-size:12px;
+ margin:12px 0;
+}
+
+.navigation{
+ display:flex;
+ gap:8px;
+}
+
+.navigation button{
+ flex:1;
+ padding:13px;
+ border:0;
+ border-radius:10px;
+ background:#124735;
+ color:white;
+ font-size:15px;
+}
+
+.navigation button:active{
+ transform:scale(.96);
+}
+
+@media(max-width:500px){
+ .page{
+  min-height:650px;
+  padding:16px 7px;
+ }
+
+ .line{
+  min-height:35px;
+  font-size:18px;
+ }
+
+ .surah{font-size:21px}
+ .bismillah{font-size:20px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>القرآن الکریم</h1>
+<p>قرآن پاک — 16 لائن فی صفحہ</p>
+</header>
+
+<div class="toolbar">
+
+<select id="surahSelect">
+<option value="">سورت منتخب کریں</option>
+</select>
+
+<button onclick="savePage()">🔖 محفوظ کریں</button>
+
+<button onclick="loadPage()">📖 محفوظ صفحہ</button>
+
+</div>
+
+<main class="reader">
+
+<div class="book">
+
+<section class="page" id="page">
+
+<div class="surah" id="surahName">
+القرآن الکریم
+</div>
+
+<div class="bismillah">
+بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ
+</div>
+
+<div class="lines" id="quranLines">
+
+<!-- قرآن کی 16 لائنیں JavaScript سے آئیں گی -->
+
+</div>
+
+<div class="page-number">
+صفحہ <span id="pageNumber">1</span>
+</div>
+
+</section>
+
+</div>
+
+<div class="hint">
+صفحہ بدلنے کے لیے انگلی سے دائیں یا بائیں Swipe کریں
+</div>
+
+<div class="navigation">
+
+<button onclick="previousPage()">
+❮ پچھلا صفحہ
+</button>
+
+<button onclick="nextPage()">
+اگلا صفحہ ❯
+</button>
+
+</div>
+
+</main>
+
+<script src="quran.js"></script>
+
+<script>
+
+let pageNumber=1;
+
+const page=document.getElementById("page");
+
+function showPage(direction){
+
+ page.classList.remove(
+  "turn-next",
+  "turn-prev"
+ );
+
+ void page.offsetWidth;
+
+ page.classList.add(
+  direction==="next"
+  ? "turn-next"
+  : "turn-prev"
+ );
+
+ document.getElementById("pageNumber")
+ .textContent=pageNumber;
+
+ if(typeof renderQuranPage==="function"){
+  renderQuranPage(pageNumber);
+ }
+
+ window.scrollTo({
+  top:0,
+  behavior:"smooth"
+ });
+}
+
+function nextPage(){
+
+ if(pageNumber<604){
+  pageNumber++;
+  showPage("next");
+ }
+
+}
+
+function previousPage(){
+
+ if(pageNumber>1){
+  pageNumber--;
+  showPage("prev");
+ }
+
+}
+
+function savePage(){
+
+ localStorage.setItem(
+  "quranPage",
+  pageNumber
+ );
+
+ alert("صفحہ محفوظ ہوگیا: "+pageNumber);
+
+}
+
+function loadPage(){
+
+ let saved=
+ localStorage.getItem("quranPage");
+
+ if(saved){
+
+  pageNumber=parseInt(saved);
+
+  showPage("next");
+
+ }else{
+
+  alert("ابھی کوئی محفوظ صفحہ نہیں ہے۔");
+
+ }
+
+}
+
+const select=
+ document.getElementById("surahSelect");
+
+if(typeof surahList!=="undefined"){
+
+ surahList.forEach(function(s){
+
+  let option=
+  document.createElement("option");
+
+  option.value=s.number;
+  option.textContent=
+  s.number+" — "+s.name;
+
+  select.appendChild(option);
+
+ });
+
+}
+
+select.addEventListener("change",function(){
+
+ if(typeof surahPages!=="undefined"){
+
+  let selected=
+  surahPages[this.value];
+
+  if(selected){
+
+   pageNumber=selected;
+
+   showPage("next");
+
+  }
+
+ }
+
+});
+
+let startX=0;
+
+page.addEventListener(
+ "touchstart",
+ function(e){
+
+  startX=
+  e.touches[0].clientX;
+
+ },
+ {passive:true}
+);
+
+page.addEventListener(
+ "touchend",
+ function(e){
+
+  let endX=
+  e.changedTouches[0].clientX;
+
+  let distance=
+  startX-endX;
+
+  if(Math.abs(distance)<50)return;
+
+  if(distance>0){
+
+   nextPage();
+
+  }else{
+
+   previousPage();
+
+  }
+
+ },
+ {passive:true}
+);
+
+</script>
+
+</body>
+</html>
