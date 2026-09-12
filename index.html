@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>القرآن الکریم</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+body{
+  margin:0;
+  background:#eee8dc;
+  color:#25251f;
+  font-family:Arial,"Noto Nastaliq Urdu",sans-serif;
+}
+
+.app{
+  max-width:650px;
+  margin:auto;
+  min-height:100vh;
+  background:#f8f4ea;
+  box-shadow:0 0 25px #999;
+}
+
+.header{
+  position:sticky;
+  top:0;
+  z-index:10;
+  background:#173f35;
+  color:white;
+  padding:15px;
+  text-align:center;
+}
+
+.header h1{
+  margin:0;
+  font-size:25px;
+}
+
+.header p{
+  margin:5px 0 0;
+  font-size:13px;
+  opacity:.8;
+}
+
+.toolbar{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:7px;
+  padding:10px;
+  background:#e8dfce;
+}
+
+button{
+  border:0;
+  border-radius:9px;
+  padding:11px 5px;
+  background:#fff;
+  color:#173f35;
+  font-size:13px;
+  cursor:pointer;
+}
+
+button:active{
+  transform:scale(.96);
+}
+
+.menu{
+  display:none;
+  padding:12px;
+  background:#f8f4ea;
+}
+
+.menu button{
+  width:100%;
+  margin-bottom:8px;
+  text-align:right;
+  border:1px solid #d8cfbe;
+}
+
+.quran-page{
+  margin:12px;
+  background:#fffdf6;
+  border:2px solid #c9b98e;
+  border-radius:5px;
+  min-height:720px;
+  padding:18px 13px;
+  position:relative;
+  box-shadow:0 3px 12px #c4bcac;
+}
+
+.page-title{
+  text-align:center;
+  font-size:18px;
+  color:#173f35;
+  border-bottom:1px solid #d8c99f;
+  padding-bottom:9px;
+  margin-bottom:12px;
+}
+
+.lines{
+  direction:rtl;
+  text-align:center;
+  font-family:"Amiri","Scheherazade New",serif;
+  font-size:22px;
+  line-height:2.25;
+}
+
+.line{
+  min-height:48px;
+  border-bottom:1px dotted #ddd3bd;
+  padding:1px 0;
+}
+
+.placeholder{
+  color:#777;
+  font-family:Arial,sans-serif;
+  font-size:15px;
+  line-height:1.8;
+  padding:50px 15px;
+}
+
+.page-number{
+  position:absolute;
+  bottom:8px;
+  left:0;
+  right:0;
+  text-align:center;
+  color:#777;
+  font-size:13px;
+}
+
+.bottom{
+  position:sticky;
+  bottom:0;
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:8px;
+  padding:10px;
+  background:#173f35;
+}
+
+.bottom button{
+  background:#f5ead0;
+}
+
+.panel{
+  display:none;
+  padding:12px;
+}
+
+.panel h2{
+  color:#173f35;
+  text-align:center;
+}
+
+.searchbox{
+  display:flex;
+  gap:7px;
+}
+
+.searchbox input{
+  flex:1;
+  padding:12px;
+  border:1px solid #bbb;
+  border-radius:8px;
+  font-size:16px;
+}
+
+.list{
+  margin-top:10px;
+}
+
+.list button{
+  display:block;
+  width:100%;
+  margin:6px 0;
+  border:1px solid #d5c8aa;
+  text-align:right;
+}
+
+.dark{
+  background:#171b19;
+  color:#eee;
+}
+
+.dark .app{
+  background:#202522;
+}
+
+.dark .quran-page{
+  background:#292e2a;
+  border-color:#665b3e;
+  color:#f4eedf;
+}
+
+.dark .toolbar{
+  background:#252a27;
+}
+
+.dark button{
+  background:#333a36;
+  color:#f3e8ca;
+}
+
+.dark .header,
+.dark .bottom{
+  background:#101d19;
+}
+
+.dark .panel{
+  background:#202522;
+}
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:50;
+  background:rgba(0,0,0,.6);
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.modal-box{
+  width:100%;
+  max-width:430px;
+  background:#fff;
+  border-radius:14px;
+  padding:18px;
+}
+
+.modal-box h3{
+  margin-top:0;
+  text-align:center;
+}
+
+.modal-box input{
+  width:100%;
+  padding:13px;
+  border:1px solid #aaa;
+  border-radius:8px;
+  font-size:18px;
+  margin-bottom:10px;
+}
+
+@media(max-width:450px){
+  .quran-page{
+    min-height:650px;
+    padding:12px 8px;
+  }
+
+  .lines{
+    font-size:19px;
+    line-height:2.3;
+  }
+
+  .line{
+    min-height:43px;
+  }
+
+  .header h1{
+    font-size:22px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header class="header">
+  <h1>القرآن الکریم</h1>
+  <p>قرآن پاک — 16 لائن فی صفحہ</p>
+</header>
+
+<div class="toolbar">
+  <button onclick="showMenu()">☰ مینو</button>
+  <button onclick="openSearch()">🔍 سرچ</button>
+  <button onclick="openPage()">📄 صفحہ</button>
+  <button onclick="toggleDark()">🌙 موڈ</button>
+</div>
+
+<div id="menu" class="menu">
+  <button onclick="showPanel('surah')">🕌 سورتوں کا انڈیکس</button>
+  <button onclick="showPanel('para')">📚 پاروں کا انڈیکس</button>
+  <button onclick="showBookmarks()">🔖 بک مارک</button>
+  <button onclick="resume()">↩️ آخری صفحہ</button>
+  <button onclick="closePanels()">📖 قرآن کھولیں</button>
+</div>
+
+<div id="surah" class="panel">
+  <h2>سورتوں کا انڈیکس</h2>
+  <div id="surahList" class="list"></div>
+</div>
+
+<div id="para" class="panel">
+  <h2>پاروں کا انڈیکس</h2>
+  <div id="paraList" class="list"></div>
+</div>
+
+<div id="bookmarkPanel" class="panel">
+  <h2>🔖 محفوظ صفحات</h2>
+  <div id="bookmarkList" class="list"></div>
+</div>
+
+<div id="searchPanel" class="panel">
+  <h2>🔍 قرآن سرچ</h2>
+
+  <div class="searchbox">
+    <input id="searchInput" placeholder="لفظ لکھیں">
+    <button onclick="searchQuran()">تلاش</button>
+  </div>
+
+  <div id="searchResults" class="list"></div>
+</div>
+
+<main id="quran" class="quran-page">
+
+  <div class="page-title">
+    پارہ 1 — صفحہ <span id="pageTop">1</span>
+  </div>
+
+  <div id="lines" class="lines">
+
+    <div class="placeholder">
+      <b>قرآن پاک کا مستند متن یہاں ظاہر ہوگا</b>
+      <br><br>
+      یہ صفحہ 16 لائن کے ڈیزائن کے لیے تیار ہے۔
+      <br><br>
+      اگلے مرحلے میں مستند قرآن ڈیٹا شامل کریں گے تاکہ
+      تمام 604 صفحات صحیح آیات کے ساتھ ظاہر ہوں۔
+    </div>
+
+  </div>
+
+  <div class="page-number">
+    صفحہ <span id="pageBottom">1</span>
+  </div>
+
+</main>
+
+<div class="bottom">
+  <button onclick="previousPage()">⬅ پچھلا</button>
+  <button onclick="bookmark()">🔖 محفوظ</button>
+  <button onclick="nextPage()">اگلا ➡</button>
+</div>
+
+</div>
+
+<div id="pageModal" class="modal">
+  <div class="modal-box">
+    <h3>صفحہ نمبر</h3>
+    <input id="pageInput" type="number" min="1" max="604"
+           placeholder="1 سے 604">
+    <button onclick="goToPage()" style="width:100%;margin-bottom:7px">
+      صفحہ کھولیں
+    </button>
+    <button onclick="closeModal()" style="width:100%">
+      بند کریں
+    </button>
+  </div>
+</div>
+
+<script>
+
+/* =========================
+   BASIC SETTINGS
+========================= */
+
+let currentPage =
+  Number(localStorage.getItem("quranPage")) || 1;
+
+let bookmarks =
+  JSON.parse(localStorage.getItem("quranBookmarks") || "[]");
+
+const totalPages = 604;
+
+
+/* =========================
+   PAGE
+========================= */
+
+function updatePage(){
+
+  if(currentPage < 1) currentPage = 1;
+  if(currentPage > totalPages) currentPage = totalPages;
+
+  document.getElementById("pageTop").textContent =
+    currentPage;
+
+  document.getElementById("pageBottom").textContent =
+    currentPage;
+
+  localStorage.setItem("quranPage", currentPage);
+
+  renderPage();
+}
+
+
+function nextPage(){
+
+  if(currentPage < totalPages){
+    currentPage++;
+    updatePage();
+  }
+}
+
+
+function previousPage(){
+
+  if(currentPage > 1){
+    currentPage--;
+    updatePage();
+  }
+}
+
+
+/* =========================
+   SWIPE
+========================= */
+
+let startX = 0;
+
+document.getElementById("quran").addEventListener(
+  "touchstart",
+  function(e){
+    startX = e.touches[0].clientX;
+  }
+);
+
+document.getElementById("quran").addEventListener(
+  "touchend",
+  function(e){
+
+    let endX = e.changedTouches[0].clientX;
+    let difference = endX - startX;
+
+    if(Math.abs(difference) > 60){
+
+      if(difference < 0){
+        nextPage();
+      }else{
+        previousPage();
+      }
+
+    }
+  }
+);
+
+
+/* =========================
+   PAGE RENDER
+========================= */
+
+function renderPage(){
+
+  /*
+    یہاں بعد میں مستند قرآن JSON سے
+    ہر صفحے کی 16 لائنیں لائی جائیں گی۔
+  */
+
+  const lines = document.getElementById("lines");
+
+  lines.innerHTML = `
+    <div class="placeholder">
+      <b>صفحہ ${currentPage}</b>
+      <br><br>
+      16 لائن قرآن صفحہ
+      <br><br>
+      مستند قرآن متن ڈیٹا شامل ہونے کے بعد
+      اس جگہ مکمل آیات ظاہر ہوں گی۔
+    </div>
+  `;
+}
+
+
+/* =========================
+   MENU
+========================= */
+
+function showMenu(){
+
+  let menu = document.getElementById("menu");
+
+  menu.style.display =
+    menu.style.display === "block"
+    ? "none"
+    : "block";
+}
+
+
+function closePanels(){
+
+  document.querySelectorAll(".panel")
+    .forEach(x => x.style.display="none");
+
+  document.getElementById("quran").style.display="block";
+}
+
+
+function showPanel(id){
+
+  document.querySelectorAll(".panel")
+    .forEach(x => x.style.display="none");
+
+  document.getElementById("quran").style.display="none";
+
+  document.getElementById(id).style.display="block";
+
+  if(id === "surah") loadSurahs();
+  if(id === "para") loadParas();
+}
+
+
+/* =========================
+   SURAH INDEX
+========================= */
+
+const surahs = [
+"الفاتحہ","البقرہ","آل عمران","النساء","المائدہ",
+"الانعام","الاعراف","الانفال","التوبہ","یونس",
+"ہود","یوسف","الرعد","ابراہیم","الحجر",
+"النحل","الاسراء","الکہف","مریم","طٰہٰ",
+"الانبیاء","الحج","المؤمنون","النور","الفرقان",
+"الشعراء","النمل","القصص","العنکبوت","الروم",
+"لقمان","السجدہ","الاحزاب","سبا","فاطر",
+"یس","الصافات","ص","الزمر","غافر",
+"فصلت","الشوریٰ","الزخرف","الدخان","الجاثیہ",
+"الاحقاف","محمد","الفتح","الحجرات","ق",
+"الذاریات","الطور","النجم","القمر","الرحمن",
+"الواقعہ","الحدید","المجادلہ","الحشر","الممتحنہ",
+"الصف","الجمعہ","المنافقون","التغابن","الطلاق",
+"التحریم","الملک","القلم","الحاقہ","المعارج",
+"نوح","الجن","المزمل","المدثر","القیامہ",
+"الانسان","المرسلات","النباء","النازعات","عبس",
+"التکویر","الانفطار","المطففین","الانشقاق","البروج",
+"الطارق","الاعلیٰ","الغاشیہ","الفجر","البلد",
+"الشمس","اللیل","الضحیٰ","الشرح","التین",
+"العلق","القدر","البینہ","الزلزال","العادیات",
+"القارعہ","التکاثر","العصر","الہمزہ","الفیل",
+"قریش","الماعون","الکوثر","الکافرون","النصر",
+"المسد","الاخلاص","الفلق","الناس"
+];
+
+
+function loadSurahs(){
+
+  const box = document.getElementById("surahList");
+
+  box.innerHTML = "";
+
+  surahs.forEach((name,index)=>{
+
+    let button = document.createElement("button");
+
+    button.innerHTML =
+      `${index+1}. سورۃ ${name}`;
+
+    button.onclick = function(){
+
+      /*
+        بعد میں ہر سورت کا اصل آغاز
+        متعلقہ صفحے پر لگایا جائے گا۔
+      */
+
+      alert(
+        `سورۃ ${name} منتخب کی گئی ہے۔`
+      );
+
+    };
+
+    box.appendChild(button);
+
+  });
+}
+
+
+/* =========================
+   PARA INDEX
+========================= */
+
+function loadParas(){
+
+  const box = document.getElementById("paraList");
+
+  box.innerHTML = "";
+
+  for(let i=1;i<=30;i++){
+
+    let button = document.createElement("button");
+
+    button.textContent =
+      `پارہ ${i}`;
+
+    button.onclick = function(){
+
+      /*
+        بعد میں اصل پارہ → صفحہ mapping
+        یہاں شامل کی جائے گی۔
+      */
+
+      alert(`پارہ ${i} منتخب کیا گیا ہے۔`);
+
+    };
+
+    box.appendChild(button);
+  }
+}
+
+
+/* =========================
+   BOOKMARK
+========================= */
+
+function bookmark(){
+
+  if(!bookmarks.includes(currentPage)){
+
+    bookmarks.push(currentPage);
+
+    localStorage.setItem(
+      "quranBookmarks",
+      JSON.stringify(bookmarks)
+    );
+
+    alert("صفحہ بک مارک میں محفوظ ہوگیا۔");
+
+  }else{
+
+    alert("یہ صفحہ پہلے ہی محفوظ ہے۔");
+
+  }
+}
+
+
+function showBookmarks(){
+
+  document.querySelectorAll(".panel")
+    .forEach(x=>x.style.display="none");
+
+  document.getElementById("quran").style.display="none";
+
+  const panel =
+    document.getElementById("bookmarkPanel");
+
+  panel.style.display="block";
+
+  const box =
+    document.getElementById("bookmarkList");
+
+  box.innerHTML="";
+
+  if(bookmarks.length === 0){
+
+    box.innerHTML =
+      "<p style='text-align:center'>ابھی کوئی صفحہ محفوظ نہیں۔</p>";
+
+    return;
+  }
+
+  bookmarks.forEach(page=>{
+
+    let button =
+      document.createElement("button");
+
+    button.textContent =
+      `📖 صفحہ ${page}`;
+
+    button.onclick = function(){
+
+      currentPage = page;
+      closePanels();
+      updatePage();
+
+    };
+
+    box.appendChild(button);
+
+  });
+}
+
+
+/* =========================
+   RESUME
+========================= */
+
+function resume(){
+
+  closePanels();
+
+  updatePage();
+}
+
+
+/* =========================
+   GO TO PAGE
+========================= */
+
+function openPage(){
+
+  document.getElementById("pageModal")
+    .style.display="flex";
+
+}
+
+
+function closeModal(){
+
+  document.getElementById("pageModal")
+    .style.display="none";
+
+}
+
+
+function goToPage(){
+
+  let value =
+    Number(document.getElementById("pageInput").value);
+
+  if(value >= 1 && value <= 604){
+
+    currentPage = value;
+
+    closeModal();
+    closePanels();
+    updatePage();
+
+  }else{
+
+    alert("صفحہ نمبر 1 سے 604 کے درمیان لکھیں۔");
+
+  }
+}
+
+
+/* =========================
+   SEARCH
+========================= */
+
+function openSearch(){
+
+  document.querySelectorAll(".panel")
+    .forEach(x => x.style.display="none");
+
+  document.getElementById("quran").style.display="none";
+
+  document.getElementById("searchPanel")
+    .style.display="block";
+
+}
+
+
+function searchQuran(){
+
+  const word =
+    document.getElementById("searchInput")
+    .value.trim();
+
+  const results =
+    document.getElementById("searchResults");
+
+  results.innerHTML="";
+
+  if(!word){
+
+    results.innerHTML =
+      "<p>براہ کرم کوئی لفظ لکھیں۔</p>";
+
+    return;
+  }
+
+  /*
+    اصل قرآن ڈیٹا آنے کے بعد یہاں
+    مکمل Search Engine لگایا جائے گا۔
+  */
+
+  results.innerHTML = `
+    <button>
+      🔎 "${word}" کے نتائج
+    </button>
+
+    <p style="padding:10px">
+      قرآن ڈیٹا شامل ہونے کے بعد یہاں
+      آیت، سورت، پارہ اور صفحہ نمبر
+      کے مکمل نتائج ظاہر ہوں گے۔
+    </p>
+  `;
+
+}
+
+
+/* =========================
+   DARK MODE
+========================= */
+
+function toggleDark(){
+
+  document.body.classList.toggle("dark");
+
+  localStorage.setItem(
+    "darkMode",
+    document.body.classList.contains("dark")
+  );
+
+}
+
+
+if(localStorage.getItem("darkMode") === "true"){
+
+  document.body.classList.add("dark");
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+updatePage();
+
+</script>
+
+</body>
+</html>
