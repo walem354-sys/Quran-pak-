@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>قرآن پاک</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+body{
+  margin:0;
+  background:#e8dfc9;
+  color:#222;
+  font-family:Arial,sans-serif;
+}
+
+body.dark{
+  background:#151515;
+  color:#eee;
+}
+
+.app{
+  max-width:650px;
+  margin:auto;
+  min-height:100vh;
+}
+
+/* Header */
+.header{
+  position:sticky;
+  top:0;
+  z-index:10;
+  background:#075e46;
+  color:white;
+  padding:12px;
+  text-align:center;
+  box-shadow:0 2px 8px #0004;
+}
+
+.header h2{
+  margin:0;
+  font-size:21px;
+}
+
+.header small{
+  display:block;
+  margin-top:4px;
+}
+
+/* Controls */
+.controls{
+  display:flex;
+  gap:7px;
+  padding:8px;
+  background:#f7f2e6;
+}
+
+.dark .controls{
+  background:#222;
+}
+
+button,select,input{
+  border:0;
+  border-radius:8px;
+  padding:10px;
+  font-size:14px;
+}
+
+button{
+  background:#075e46;
+  color:white;
+  cursor:pointer;
+}
+
+select{
+  flex:1;
+  background:white;
+}
+
+input{
+  width:100%;
+  outline:none;
+}
+
+.dark select,
+.dark input{
+  background:#333;
+  color:white;
+}
+
+/* Search */
+.search{
+  padding:8px;
+  display:none;
+  background:#f7f2e6;
+}
+
+.dark .search{
+  background:#222;
+}
+
+/* Quran Page */
+.book{
+  margin:12px;
+  padding:15px 12px;
+  min-height:700px;
+  background:#fffdf5;
+  border:3px solid #c5a45b;
+  border-radius:5px;
+  box-shadow:0 4px 15px #0003;
+  position:relative;
+  overflow:hidden;
+}
+
+.dark .book{
+  background:#202020;
+  border-color:#806b32;
+}
+
+.pageTop{
+  text-align:center;
+  border-bottom:1px solid #c5a45b;
+  padding-bottom:8px;
+  margin-bottom:10px;
+}
+
+.pageTop strong{
+  font-size:20px;
+}
+
+.pageNumber{
+  font-size:13px;
+  margin-top:3px;
+}
+
+.ayahs{
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+}
+
+.ayah{
+  min-height:48px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:2px 3px;
+  font-family:"Amiri","Noto Naskh Arabic",serif;
+  font-size:23px;
+  line-height:1.8;
+  border-bottom:1px dotted #c9b98c;
+}
+
+.dark .ayah{
+  border-color:#555;
+}
+
+.ayah span{
+  color:#075e46;
+  font-size:13px;
+  margin-right:5px;
+  font-family:Arial;
+}
+
+.dark .ayah span{
+  color:#d8bd67;
+}
+
+/* Bottom */
+.bottom{
+  position:sticky;
+  bottom:0;
+  background:#075e46;
+  padding:8px;
+  display:flex;
+  gap:7px;
+  z-index:10;
+}
+
+.bottom button{
+  flex:1;
+  background:#0b7658;
+}
+
+.info{
+  text-align:center;
+  padding:8px;
+  font-size:13px;
+}
+
+/* Page animation */
+.turnNext{
+  animation:nextPage .35s ease;
+}
+
+.turnPrev{
+  animation:prevPage .35s ease;
+}
+
+@keyframes nextPage{
+  from{transform:translateX(80px);opacity:0}
+  to{transform:translateX(0);opacity:1}
+}
+
+@keyframes prevPage{
+  from{transform:translateX(-80px);opacity:0}
+  to{transform:translateX(0);opacity:1}
+}
+
+/* Bookmark */
+.bookmark{
+  position:absolute;
+  left:10px;
+  top:10px;
+  background:#c5a45b;
+  color:#111;
+  border-radius:50%;
+  width:38px;
+  height:38px;
+  padding:0;
+  font-size:18px;
+}
+
+/* Mobile */
+@media(max-width:500px){
+  .book{
+    margin:7px;
+    min-height:650px;
+    padding:10px 7px;
+  }
+
+  .ayah{
+    font-size:21px;
+    min-height:49px;
+  }
+
+  .header h2{
+    font-size:19px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <div class="header">
+    <h2>📖 قرآن پاک</h2>
+    <small id="surahTitle">صفحہ لوڈ ہو رہا ہے...</small>
+  </div>
+
+  <div class="controls">
+    <select id="surahSelect" onchange="openSurah()">
+      <option value="">سورت منتخب کریں</option>
+    </select>
+
+    <button onclick="toggleSearch()">🔍</button>
+    <button onclick="toggleDark()">🌙</button>
+  </div>
+
+  <div class="search" id="searchBox">
+    <input
+      id="searchInput"
+      placeholder="قرآن میں تلاش کریں..."
+      oninput="searchQuran()"
+    >
+    <div id="searchResult"></div>
+  </div>
+
+  <div class="book" id="book">
+
+    <button class="bookmark" onclick="saveBookmark()">🔖</button>
+
+    <div class="pageTop">
+      <strong id="pageSurah">قرآن پاک</strong>
+      <div class="pageNumber">
+        صفحہ <span id="pageNumber">1</span> / 604
+      </div>
+    </div>
+
+    <div class="ayahs" id="ayahs">
+      <div class="ayah">قرآن پاک لوڈ ہو رہا ہے...</div>
+    </div>
+
+  </div>
+
+  <div class="info">
+    👆 صفحہ بدلنے کے لیے دائیں یا بائیں Swipe کریں
+  </div>
+
+  <div class="bottom">
+    <button onclick="previousPage()">◀ پچھلا</button>
+    <button onclick="goBookmark()">🔖 محفوظ صفحہ</button>
+    <button onclick="nextPage()">اگلا ▶</button>
+  </div>
+
+</div>
+
+<script>
+
+const API="https://api.alquran.cloud/v1/page/";
+
+let currentPage=
+  parseInt(localStorage.getItem("quranPage")) || 1;
+
+let bookmarkedPage=
+  parseInt(localStorage.getItem("bookmarkPage")) || 1;
+
+let allSurahs=[
+["الفاتحہ",1],
+["البقرہ",2],
+["آل عمران",3],
+["النساء",4],
+["المائدہ",5],
+["الانعام",6],
+["الاعراف",7],
+["الانفال",8],
+["التوبہ",9],
+["یونس",10],
+["ہود",11],
+["یوسف",12],
+["الرعد",13],
+["ابراہیم",14],
+["الحجر",15],
+["النحل",16],
+["الاسراء",17],
+["الکہف",18],
+["مریم",19],
+["طٰہٰ",20],
+["الانبیاء",21],
+["الحج",22],
+["المؤمنون",23],
+["النور",24],
+["الفرقان",25],
+["الشعراء",26],
+["النمل",27],
+["القصص",28],
+["العنکبوت",29],
+["الروم",30],
+["لقمان",31],
+["السجدہ",32],
+["الاحزاب",33],
+["سبا",34],
+["فاطر",35],
+["یٰس",36],
+["الصافات",37],
+["ص",38],
+["الزمر",39],
+["غافر",40],
+["فصلت",41],
+["الشوریٰ",42],
+["الزخرف",43],
+["الدخان",44],
+["الجاثیہ",45],
+["الاحقاف",46],
+["محمد",47],
+["الفتح",48],
+["الحجرات",49],
+["ق",50],
+["الذاریات",51],
+["الطور",52],
+["النجم",53],
+["القمر",54],
+["الرحمن",55],
+["الواقعہ",56],
+["الحدید",57],
+["المجادلہ",58],
+["الحشر",59],
+["الممتحنہ",60],
+["الصف",61],
+["الجمعہ",62],
+["المنافقون",63],
+["التغابن",64],
+["الطلاق",65],
+["التحریم",66],
+["الملک",67],
+["القلم",68],
+["الحاقہ",69],
+["المعارج",70],
+["نوح",71],
+["الجن",72],
+["المزمل",73],
+["المدثر",74],
+["القیامہ",75],
+["الانسان",76],
+["المرسلات",77],
+["النباء",78],
+["النازعات",79],
+["عبس",80],
+["التکویر",81],
+["الانفطار",82],
+["المطففین",83],
+["الانشقاق",84],
+["البروج",85],
+["الطارق",86],
+["الاعلیٰ",87],
+["الغاشیہ",88],
+["الفجر",89],
+["البلد",90],
+["الشمس",91],
+["اللیل",92],
+["الضحیٰ",93],
+["الشرح",94],
+["التین",95],
+["العلق",96],
+["القدر",97],
+["البینہ",98],
+["الزلزال",99],
+["العادیات",100],
+["القارعہ",101],
+["التکاثر",102],
+["العصر",103],
+["الہمزہ",104],
+["الفیل",105],
+["قریش",106],
+["الماعون",107],
+["الکوثر",108],
+["الکافرون",109],
+["النصر",110],
+["المسد",111],
+["الاخلاص",112],
+["الفلق",113],
+["الناس",114]
+];
+
+/* Surah list */
+const select=document.getElementById("surahSelect");
+
+allSurahs.forEach(s=>{
+  let option=document.createElement("option");
+  option.value=s[1];
+  option.textContent=s[1]+" - "+s[0];
+  select.appendChild(option);
+});
+
+/* Load page */
+async function loadPage(page,animation=""){
+  
+  if(page<1) page=1;
+  if(page>604) page=604;
+
+  currentPage=page;
+
+  localStorage.setItem("quranPage",page);
+
+  const ayahs=document.getElementById("ayahs");
+
+  ayahs.innerHTML=
+    '<div class="ayah">قرآن پاک لوڈ ہو رہا ہے...</div>';
+
+  try{
+
+    const response=await fetch(
+      API+page+"/quran-uthmani"
+    );
+
+    const data=await response.json();
+
+    ayahs.innerHTML="";
+
+    let verses=data.data.ayahs;
+
+    if(verses.length===0){
+      ayahs.innerHTML=
+        '<div class="ayah">اس صفحے پر آیات نہیں ملیں۔</div>';
+      return;
+    }
+
+    verses.forEach(v=>{
+
+      let div=document.createElement("div");
+      div.className="ayah";
+
+      div.innerHTML=
+        v.text+
+        ' <span>﴿'+v.numberInSurah+'﴾</span>';
+
+      ayahs.appendChild(div);
+
+    });
+
+    let first=verses[0];
+
+    let surahName=
+      first.surah ? first.surah.name : "قرآن پاک";
+
+    document.getElementById("surahTitle").textContent=
+      surahName;
+
+    document.getElementById("pageSurah").textContent=
+      surahName;
+
+    document.getElementById("pageNumber").textContent=
+      page;
+
+    if(animation){
+      const book=document.getElementById("book");
+
+      book.classList.remove("turnNext","turnPrev");
+
+      void book.offsetWidth;
+
+      book.classList.add(animation);
+    }
+
+  }catch(error){
+
+    ayahs.innerHTML=
+      '<div class="ayah">انٹرنیٹ چیک کریں اور دوبارہ کوشش کریں۔</div>';
+
+  }
+}
+
+/* Next */
+function nextPage(){
+
+  if(currentPage<604){
+    loadPage(currentPage+1,"turnNext");
+  }else{
+    alert("یہ آخری صفحہ ہے");
+  }
+
+}
+
+/* Previous */
+function previousPage(){
+
+  if(currentPage>1){
+    loadPage(currentPage-1,"turnPrev");
+  }else{
+    alert("یہ پہلا صفحہ ہے");
+  }
+
+}
+
+/* Bookmark */
+function saveBookmark(){
+
+  bookmarkedPage=currentPage;
+
+  localStorage.setItem(
+    "bookmarkPage",
+    bookmarkedPage
+  );
+
+  alert("صفحہ محفوظ ہوگیا ✅");
+
+}
+
+function goBookmark(){
+
+  loadPage(bookmarkedPage,"turnNext");
+
+}
+
+/* Dark mode */
+function toggleDark(){
+
+  document.body.classList.toggle("dark");
+
+  localStorage.setItem(
+    "darkMode",
+    document.body.classList.contains("dark")
+  );
+
+}
+
+/* Search box */
+function toggleSearch(){
+
+  let box=document.getElementById("searchBox");
+
+  if(box.style.display==="block"){
+    box.style.display="none";
+  }else{
+    box.style.display="block";
+    document.getElementById("searchInput").focus();
+  }
+
+}
+
+/* Basic Quran search */
+let searchTimer;
+
+function searchQuran(){
+
+  clearTimeout(searchTimer);
+
+  const word=
+    document.getElementById("searchInput").value.trim();
+
+  const result=
+    document.getElementById("searchResult");
+
+  if(word.length<2){
+    result.innerHTML="";
+    return;
+  }
+
+  result.innerHTML=
+    "<p>تلاش کی سہولت مکمل Quran database کے ساتھ اگلے مرحلے میں مزید بہتر کی جائے گی۔</p>";
+
+}
+
+/* Open Surah */
+function openSurah(){
+
+  let surah=
+    parseInt(select.value);
+
+  if(!surah) return;
+
+  /*
+    ابتدائی navigation:
+    سورۃ نمبر کے مطابق قریب ترین صفحہ
+  */
+
+  let page=
+    Math.ceil((surah/114)*604);
+
+  loadPage(page,"turnNext");
+
+}
+
+/* Swipe */
+let startX=0;
+let endX=0;
+
+const book=document.getElementById("book");
+
+book.addEventListener("touchstart",function(e){
+
+  startX=e.touches[0].clientX;
+
+});
+
+book.addEventListener("touchend",function(e){
+
+  endX=e.changedTouches[0].clientX;
+
+  let distance=endX-startX;
+
+  if(Math.abs(distance)>60){
+
+    if(distance<0){
+      nextPage();
+    }else{
+      previousPage();
+    }
+
+  }
+
+});
+
+/* Restore dark mode */
+if(localStorage.getItem("darkMode")==="true"){
+  document.body.classList.add("dark");
+}
+
+/* Start */
+loadPage(currentPage);
+
+</script>
+
+</body>
+</html>
