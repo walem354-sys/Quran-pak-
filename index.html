@@ -1,0 +1,1633 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+
+<title>القرآن الكريم — AL QURAN UL KAREEM</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+  margin:0;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+}
+
+body{
+  background:#e8dfc9;
+  color:#171717;
+  font-family:Arial,sans-serif;
+}
+
+body.dark{
+  background:#111;
+  color:#eee;
+}
+
+/* HEADER */
+header{
+  height:68px;
+  background:linear-gradient(135deg,#06492d,#087443,#043b25);
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 8px;
+  position:relative;
+  z-index:50;
+  border-bottom:2px solid #d5ae51;
+}
+
+.title{
+  text-align:center;
+  flex:1;
+  line-height:1.1;
+}
+
+.titleArabic{
+  font-family:"Amiri",serif;
+  color:#f5d47e;
+  font-size:25px;
+  font-weight:bold;
+}
+
+.titleEnglish{
+  direction:ltr;
+  font-family:Georgia,serif;
+  color:#fff;
+  font-size:11px;
+  letter-spacing:1px;
+  margin-top:2px;
+}
+
+.topBtns{
+  display:flex;
+  gap:5px;
+}
+
+.topBtns button{
+  width:38px;
+  height:38px;
+  border:1px solid #e1bd65;
+  border-radius:50%;
+  background:#ffffff18;
+  color:#fff;
+  font-size:19px;
+}
+
+/* THREE DOT MENU */
+.menu{
+  display:none;
+  position:absolute;
+  top:62px;
+  right:7px;
+  width:210px;
+  background:#fffdf2;
+  border:2px solid #b28b3f;
+  border-radius:14px;
+  z-index:100;
+  box-shadow:0 7px 25px #0006;
+  overflow:hidden;
+}
+
+.dark .menu{
+  background:#29271f;
+  color:#fff;
+}
+
+.menu button{
+  width:100%;
+  border:0;
+  border-bottom:1px solid #cdbd98;
+  background:transparent;
+  padding:12px;
+  text-align:right;
+  font-family:"Amiri",serif;
+  font-size:17px;
+}
+
+.menu button:last-child{
+  border-bottom:0;
+}
+
+/* SEARCH */
+.searchBox{
+  display:none;
+  position:absolute;
+  top:68px;
+  left:8px;
+  right:8px;
+  z-index:80;
+  background:#075c36;
+  padding:8px;
+  border-radius:0 0 12px 12px;
+}
+
+.searchBox input{
+  width:100%;
+  height:42px;
+  border:2px solid #c9a85d;
+  border-radius:10px;
+  padding:5px 10px;
+  font-size:16px;
+  outline:0;
+}
+
+/* BOOK */
+#book{
+  height:calc(100vh - 68px);
+  width:100%;
+  position:relative;
+  overflow:hidden;
+  background:#eadfca;
+}
+
+.dark #book{
+  background:#171717;
+}
+
+/* PAGE */
+.page{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  position:relative;
+  padding:5px;
+  touch-action:none;
+}
+
+.turnNext{
+  animation:turnNext .35s ease;
+}
+
+.turnPrev{
+  animation:turnPrev .35s ease;
+}
+
+@keyframes turnNext{
+  0%{transform:translateX(0);opacity:1}
+  50%{transform:translateX(-18px);opacity:.6}
+  100%{transform:translateX(0);opacity:1}
+}
+
+@keyframes turnPrev{
+  0%{transform:translateX(0);opacity:1}
+  50%{transform:translateX(18px);opacity:.6}
+  100%{transform:translateX(0);opacity:1}
+}
+
+/* COVER */
+.coverPage{
+  width:100%;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:8px;
+  background:
+    radial-gradient(circle,#fffdf2,#f5e8c5 60%,#dec895);
+}
+
+.dark .coverPage{
+  background:
+    radial-gradient(circle,#403c2d,#242219);
+}
+
+.coverFrame{
+  width:100%;
+  height:100%;
+  border:4px double #a77c2d;
+  border-radius:18px;
+  padding:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:
+    inset 0 0 0 5px #f5e5b8,
+    inset 0 0 30px #80652c44,
+    0 3px 15px #0004;
+}
+
+.coverContent{
+  width:100%;
+  text-align:center;
+}
+
+.coverOrnament{
+  font-family:"Amiri",serif;
+  color:#a87e2d;
+  font-size:26px;
+}
+
+.coverTitleBox{
+  margin:auto;
+  width:min(94%,430px);
+  padding:28px 10px;
+  border:4px double #c09a4b;
+  border-radius:35px;
+  background:linear-gradient(135deg,#075d37,#087443,#043d26);
+  box-shadow:inset 0 0 25px #fff2,0 8px 25px #0004;
+}
+
+.coverTitle{
+  font-family:"Amiri",serif;
+  color:#f5df9d;
+  font-size:46px;
+  font-weight:bold;
+  line-height:1.5;
+}
+
+.coverEnglish{
+  direction:ltr;
+  color:#e5ca7a;
+  font-family:Georgia,serif;
+  font-weight:bold;
+  font-size:17px;
+  letter-spacing:1px;
+}
+
+.coverAyah{
+  margin:18px auto;
+  max-width:90%;
+  font-family:"Amiri",serif;
+  font-size:19px;
+  color:#725729;
+}
+
+.dark .coverAyah{
+  color:#e3c878;
+}
+
+.startButton{
+  margin-top:12px;
+  padding:10px 25px;
+  border:2px solid #b28b3f;
+  border-radius:25px;
+  background:#087443;
+  color:#fff1bd;
+  font-family:"Amiri",serif;
+  font-size:19px;
+}
+
+/* TOP INFO */
+.pageTop{
+  height:47px;
+  display:grid;
+  grid-template-columns:1fr 75px 1fr;
+  gap:5px;
+  align-items:center;
+}
+
+.pageTopBox{
+  border:2px solid #b28b3f;
+  background:#fff9e8;
+  border-radius:18px;
+  padding:4px;
+  text-align:center;
+  font-family:"Amiri",serif;
+  font-size:16px;
+  font-weight:bold;
+  white-space:nowrap;
+  overflow:hidden;
+}
+
+.pageTopBox.center{
+  background:#087443;
+  color:#f8dc8d;
+  font-family:Arial,sans-serif;
+  border-radius:22px;
+  font-size:12px;
+}
+
+.dark .pageTopBox{
+  background:#302d22;
+  color:#f0d58b;
+}
+
+.dark .pageTopBox.center{
+  background:#087443;
+}
+
+/* QURAN SHEET */
+.quranSheet{
+  height:calc(100% - 92px);
+  border:5px double #9c7731;
+  border-radius:9px;
+  padding:7px 9px;
+  background:
+    radial-gradient(circle,#fffef6,#f8edcf);
+  box-shadow:
+    inset 0 0 25px #a88b4c33,
+    0 3px 12px #0003;
+  overflow:hidden;
+  position:relative;
+}
+
+.quranSheet:before{
+  content:"۞";
+  position:absolute;
+  top:2px;
+  left:8px;
+  font-family:"Amiri",serif;
+  color:#a37a2e;
+  font-size:25px;
+}
+
+.quranSheet:after{
+  content:"۞";
+  position:absolute;
+  bottom:0;
+  right:8px;
+  font-family:"Amiri",serif;
+  color:#a37a2e;
+  font-size:25px;
+}
+
+.dark .quranSheet{
+  background:#302e26;
+  border-color:#c4a458;
+}
+
+/* SURAH BOX */
+.surahBox{
+  border:3px double #b28b3f;
+  border-radius:24px;
+  padding:5px 8px 7px;
+  margin:0 0 5px;
+  text-align:center;
+  background:
+    linear-gradient(135deg,#fff7d9,#fffdf5,#efdda9);
+  box-shadow:0 3px 8px #0003;
+}
+
+.dark .surahBox{
+  background:linear-gradient(135deg,#403b29,#29271f);
+}
+
+.surahName{
+  font-family:"Amiri",serif;
+  color:#075d37;
+  font-size:28px;
+  font-weight:bold;
+  line-height:1.25;
+}
+
+.dark .surahName{
+  color:#e4c873;
+}
+
+.meta{
+  font-family:"Amiri",serif;
+  font-size:13px;
+  color:#555;
+}
+
+.dark .meta{
+  color:#ddd;
+}
+
+/* BISMILLAH ONLY ONE */
+.bismillahBox{
+  width:94%;
+  margin:3px auto 0;
+  padding:2px 5px;
+  border:2px solid #b28b3f;
+  border-radius:22px;
+  background:linear-gradient(135deg,#075c36,#087443,#06492c);
+}
+
+.bismillah{
+  font-family:"Amiri",serif;
+  color:#f7df9c;
+  font-size:25px;
+  font-weight:bold;
+  line-height:1.5;
+}
+
+/* AYAT */
+.ayah{
+  font-family:"Amiri",serif;
+  font-size:25px;
+  line-height:1.72;
+  text-align:right;
+  direction:rtl;
+  padding:2px 3px;
+  border-bottom:1px solid #9b8964;
+}
+
+.dark .ayah{
+  color:#fff;
+  border-color:#777;
+}
+
+.ayahNum{
+  display:inline-flex;
+  width:27px;
+  height:27px;
+  align-items:center;
+  justify-content:center;
+  border:2px solid #a88a4a;
+  border-radius:50%;
+  background:#fffaf0;
+  color:#745925;
+  font-family:Arial,sans-serif;
+  font-size:11px;
+  vertical-align:middle;
+  margin-right:4px;
+}
+
+.dark .ayahNum{
+  background:#29271f;
+  color:#e1c274;
+}
+
+/* ALIF LAAM MEEM */
+.opening{
+  font-size:40px;
+  color:#075d37;
+  font-weight:bold;
+  line-height:1.1;
+}
+
+.dark .opening{
+  color:#e5c978;
+}
+
+/* BOTTOM */
+.pageBottom{
+  height:40px;
+  display:grid;
+  grid-template-columns:1fr 75px 1fr;
+  gap:5px;
+  align-items:center;
+  margin-top:4px;
+}
+
+.bottomBox{
+  border:2px solid #b28b3f;
+  background:#fff9e8;
+  border-radius:17px;
+  padding:3px;
+  text-align:center;
+  font-family:"Amiri",serif;
+  font-size:14px;
+}
+
+.dark .bottomBox{
+  background:#302d22;
+  color:#e5c978;
+}
+
+.pageNumber{
+  text-align:center;
+  border:2px solid #b28b3f;
+  border-radius:20px;
+  background:#087443;
+  color:#f8dc8d;
+  padding:4px;
+  font-size:11px;
+}
+
+/* NAVIGATION */
+.navLeft,.navRight{
+  position:absolute;
+  bottom:8px;
+  width:42px;
+  height:42px;
+  border:2px solid #c49b4d;
+  border-radius:50%;
+  background:#075c36;
+  color:#f5d37e;
+  font-size:25px;
+  z-index:40;
+}
+
+.navLeft{left:10px}
+.navRight{right:10px}
+
+/* LOADING / ERROR */
+.loading{
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  font-family:"Amiri",serif;
+  font-size:20px;
+}
+
+.error{
+  padding:50px 15px;
+  text-align:center;
+  font-family:"Amiri",serif;
+  font-size:19px;
+}
+
+/* SEARCH RESULTS */
+.searchResults{
+  display:none;
+  position:absolute;
+  top:75px;
+  left:8px;
+  right:8px;
+  bottom:8px;
+  z-index:90;
+  background:#fffdf3;
+  border:2px solid #b28b3f;
+  border-radius:12px;
+  overflow:auto;
+  padding:10px;
+}
+
+.dark .searchResults{
+  background:#24231e;
+  color:#fff;
+}
+
+.result{
+  padding:9px;
+  border-bottom:1px solid #c9b98e;
+  font-family:"Amiri",serif;
+  font-size:18px;
+}
+
+/* MOBILE */
+@media(max-width:420px){
+
+  header{
+    height:64px;
+  }
+
+  #book{
+    height:calc(100vh - 64px);
+  }
+
+  .titleArabic{
+    font-size:21px;
+  }
+
+  .titleEnglish{
+    font-size:9px;
+  }
+
+  .topBtns button{
+    width:34px;
+    height:34px;
+    font-size:17px;
+  }
+
+  .pageTop{
+    height:43px;
+  }
+
+  .pageTopBox{
+    font-size:14px;
+  }
+
+  .quranSheet{
+    height:calc(100% - 86px);
+    padding:5px 7px;
+  }
+
+  .surahName{
+    font-size:25px;
+  }
+
+  .bismillah{
+    font-size:22px;
+  }
+
+  .ayah{
+    font-size:22px;
+    line-height:1.63;
+  }
+
+  .opening{
+    font-size:34px;
+  }
+
+  .pageBottom{
+    height:38px;
+  }
+
+  .bottomBox{
+    font-size:12px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+  <div class="topBtns">
+    <button onclick="toggleSearch()">🔍</button>
+    <button onclick="bookmarkPage()">🔖</button>
+  </div>
+
+  <div class="title">
+    <div class="titleArabic">القرآن الكريم</div>
+    <div class="titleEnglish">AL QURAN UL KAREEM</div>
+  </div>
+
+  <div class="topBtns">
+    <button onclick="toggleMenu()">⋮</button>
+  </div>
+
+  <div id="menu" class="menu">
+
+    <button onclick="bookmarkPage();closeMenu()">
+      🔖 صفحہ محفوظ کریں
+    </button>
+
+    <button onclick="toggleSearch();closeMenu()">
+      🔍 قرآن میں تلاش
+    </button>
+
+    <button onclick="toggleDark();closeMenu()">
+      🌙 ڈارک موڈ
+    </button>
+
+    <button onclick="showSurahList();closeMenu()">
+      📖 سورت منتخب کریں
+    </button>
+
+    <button onclick="playPage();closeMenu()">
+      🔊 آیات کی تلاوت
+    </button>
+
+    <button onclick="goBookmark();closeMenu()">
+      📑 محفوظ صفحہ کھولیں
+    </button>
+
+  </div>
+
+</header>
+
+<div id="searchBox" class="searchBox">
+  <input
+    id="searchInput"
+    type="text"
+    placeholder="قرآن پاک میں لفظ تلاش کریں..."
+    onkeydown="if(event.key==='Enter') searchQuran()">
+</div>
+
+<div id="book">
+
+  <div id="page" class="page">
+
+    <!-- COVER -->
+    <div class="coverPage">
+
+      <div class="coverFrame">
+
+        <div class="coverContent">
+
+          <div class="coverOrnament">
+            ❖ ۞ ❖
+          </div>
+
+          <div class="coverAyah">
+            لَا يَمَسُّهُ إِلَّا الْمُطَهَّرُونَ
+          </div>
+
+          <div class="coverTitleBox">
+
+            <div class="coverTitle">
+              القرآن الكريم
+            </div>
+
+            <div class="coverOrnament">
+              ─── ۞ ───
+            </div>
+
+            <div class="coverEnglish">
+              AL QURAN UL KAREEM
+            </div>
+
+          </div>
+
+          <div class="coverAyah">
+            كِتَابُ اللّٰهِ الْكَرِيمِ
+          </div>
+
+          <button class="startButton" onclick="startQuran()">
+            📖 قرآن شروع کریں
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div id="searchResults" class="searchResults"></div>
+
+  <button class="navLeft" onclick="previousPage()">‹</button>
+  <button class="navRight" onclick="nextPage()">›</button>
+
+</div>
+
+<select
+  id="surahSelect"
+  style="display:none">
+</select>
+
+<script>
+
+const API="https://api.alquran.cloud/v1";
+
+let currentPage=0;
+let currentSurah=0;
+let surahCache={};
+let currentAyahs=[];
+let audioList=[];
+let audioIndex=0;
+let audioPlayer=null;
+
+const pageEl=document.getElementById("page");
+const selectEl=document.getElementById("surahSelect");
+
+/* ---------------- MENU ---------------- */
+
+function toggleMenu(){
+
+  const menu=document.getElementById("menu");
+
+  menu.style.display=
+    menu.style.display==="block"
+    ?"none"
+    :"block";
+}
+
+function closeMenu(){
+  document.getElementById("menu").style.display="none";
+}
+
+/* ---------------- SEARCH ---------------- */
+
+function toggleSearch(){
+
+  const box=document.getElementById("searchBox");
+
+  if(box.style.display==="block"){
+
+    box.style.display="none";
+
+  }else{
+
+    box.style.display="block";
+
+    setTimeout(()=>{
+      document.getElementById("searchInput").focus();
+    },100);
+  }
+}
+
+/* ---------------- DARK ---------------- */
+
+function toggleDark(){
+
+  document.body.classList.toggle("dark");
+
+  localStorage.setItem(
+    "quranDark",
+    document.body.classList.contains("dark")
+  );
+}
+
+/* ---------------- SURAH LIST ---------------- */
+
+async function loadSurahList(){
+
+  try{
+
+    const res=await fetch(API+"/surah");
+
+    if(!res.ok)throw new Error();
+
+    const json=await res.json();
+
+    selectEl.innerHTML=
+      '<option value="">سورت منتخب کریں</option>';
+
+    json.data.forEach(s=>{
+
+      const option=document.createElement("option");
+
+      option.value=s.number;
+
+      option.textContent=
+        s.number+". "+s.name+
+        " — "+s.englishName;
+
+      selectEl.appendChild(option);
+
+    });
+
+  }catch(e){
+
+    console.log("Surah list error",e);
+  }
+}
+
+function showSurahList(){
+
+  const value=prompt(
+    "سورت نمبر لکھیں (1 سے 114):"
+  );
+
+  if(!value)return;
+
+  const no=Number(value);
+
+  if(no>=1 && no<=114){
+
+    openSurah(no);
+
+  }else{
+
+    alert("سورت نمبر 1 سے 114 تک ہونا چاہیے۔");
+  }
+}
+
+/* ---------------- START ---------------- */
+
+function startQuran(){
+
+  loadPage(1,"next");
+}
+
+/* ---------------- SURAH INFO ---------------- */
+
+async function getSurahInfo(no){
+
+  if(surahCache[no]){
+    return surahCache[no];
+  }
+
+  const res=await fetch(
+    API+"/surah/"+no+"/quran-uthmani"
+  );
+
+  if(!res.ok){
+    throw new Error("Surah error");
+  }
+
+  const json=await res.json();
+
+  const data=json.data;
+
+  let rukus=new Set();
+
+  data.ayahs.forEach(a=>{
+
+    if(
+      a.ruku!==undefined &&
+      a.ruku!==null &&
+      a.ruku!==""
+    ){
+
+      rukus.add(String(a.ruku));
+    }
+  });
+
+  const info={
+
+    number:data.number,
+    name:data.name,
+    englishName:data.englishName,
+    revelation:data.revelationType,
+    ayahCount:data.numberOfAyahs,
+    rukuCount:rukus.size,
+    ayahs:data.ayahs,
+    firstPage:
+      data.ayahs.length
+      ?data.ayahs[0].page
+      :1
+  };
+
+  surahCache[no]=info;
+
+  return info;
+}
+
+/* ---------------- OPEN SURAH ---------------- */
+
+async function openSurah(no){
+
+  try{
+
+    currentSurah=Number(no);
+
+    const info=await getSurahInfo(currentSurah);
+
+    currentPage=info.firstPage;
+
+    await loadPage(currentPage,"next");
+
+  }catch(e){
+
+    showError(
+      "سورت لوڈ نہیں ہو سکی۔<br><br>"+
+      "Internet چیک کریں اور دوبارہ کوشش کریں۔"
+    );
+  }
+}
+
+/* ---------------- LOAD PAGE ---------------- */
+
+async function loadPage(page,direction="next"){
+
+  if(page<1 || page>604){
+    return;
+  }
+
+  showLoading();
+
+  try{
+
+    const res=await fetch(
+      API+"/page/"+page+"/quran-uthmani"
+    );
+
+    if(!res.ok){
+      throw new Error("API error");
+    }
+
+    const json=await res.json();
+
+    if(
+      !json.data ||
+      !json.data.ayahs ||
+      !json.data.ayahs.length
+    ){
+
+      throw new Error("No ayahs");
+    }
+
+    currentPage=page;
+
+    currentAyahs=json.data.ayahs;
+
+    renderPage(
+      currentAyahs,
+      page,
+      direction
+    );
+
+  }catch(e){
+
+    showError(
+      "قرآن پاک لوڈ نہیں ہو سکا۔<br><br>"+
+      "Internet چیک کریں۔<br><br>"+
+      "<button onclick='loadPage("+page+",\""+direction+"\")'>"+
+      "دوبارہ کوشش کریں"+
+      "</button>"
+    );
+  }
+}
+
+/* ---------------- REMOVE BISMILLAH ---------------- */
+
+function removeBismillah(text){
+
+  const patterns=[
+
+    /^بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ\s*/u,
+
+    /^بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ\s*/u,
+
+    /^بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ\s*/u,
+
+    /^بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ\s*/u,
+
+    /^بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيمِ\s*/u
+  ];
+
+  for(const pattern of patterns){
+
+    if(pattern.test(text)){
+
+      return text.replace(pattern,"");
+    }
+  }
+
+  return text;
+}
+
+/* ---------------- OPENING LETTERS ---------------- */
+
+function highlightOpening(text){
+
+  const escaped=escapeHTML(text);
+
+  const pattern=
+    /^(الٓمٓ|الٓم|المٓ|الم|الٓر|الر|الٓمر|الرٓ|كهيعص|طه|طسم|طس|يس|حم|حمٓ|عسق|ق|ن)(?=\s|$)/u;
+
+  return escaped.replace(
+    pattern,
+    '<span class="opening">$1</span>'
+  );
+}
+
+/* ---------------- RENDER PAGE ---------------- */
+
+function renderPage(ayahs,pageNo,direction){
+
+  pageEl.className="page";
+
+  void pageEl.offsetWidth;
+
+  pageEl.classList.add(
+    direction==="next"
+    ?"turnNext"
+    :"turnPrev"
+  );
+
+  const first=ayahs[0] || {};
+
+  const firstSurah=first.surah || {};
+
+  const juz=
+    first.juz!==undefined
+    ?first.juz
+    :"—";
+
+  const manzil=
+    first.manzil!==undefined
+    ?first.manzil
+    :"—";
+
+  let html="";
+
+  html+=`
+    <div class="pageTop">
+
+      <div class="pageTopBox">
+        پارہ ${escapeHTML(juz)}
+      </div>
+
+      <div class="pageTopBox center">
+        ${pageNo}
+      </div>
+
+      <div class="pageTopBox">
+        ${escapeHTML(firstSurah.name || "قرآن")}
+      </div>
+
+    </div>
+
+    <div class="quranSheet">
+  `;
+
+  let lastSurah=0;
+
+  ayahs.forEach(a=>{
+
+    const s=a.surah || {};
+
+    if(s.number!==lastSurah){
+
+      lastSurah=s.number;
+
+      let info=surahCache[s.number];
+
+      html+=makeSurahBox(
+        s.number,
+        s.name,
+        s.revelationType,
+        info
+      );
+    }
+
+    let text=a.text || "";
+
+    /*
+      Bismillah API سے ہٹا دی جاتی ہے،
+      کیونکہ اوپر Surah Box میں صرف ایک Bismillah ہے۔
+    */
+
+    if(
+      a.numberInSurah===1 &&
+      s.number!==9
+    ){
+
+      text=removeBismillah(text);
+    }
+
+    const safeText=
+      highlightOpening(text);
+
+    html+=`
+      <div class="ayah">
+        ${safeText}
+        <span class="ayahNum">
+          ${a.numberInSurah}
+        </span>
+      </div>
+    `;
+  });
+
+  html+=`
+
+    </div>
+
+    <div class="pageBottom">
+
+      <div class="bottomBox">
+        منزل ${escapeHTML(manzil)}
+      </div>
+
+      <div class="pageNumber">
+        Page ${pageNo}
+      </div>
+
+      <div class="bottomBox">
+        پارہ ${escapeHTML(juz)}
+      </div>
+
+    </div>
+  `;
+
+  pageEl.innerHTML=html;
+
+  pageEl.scrollTop=0;
+
+  /* فون کی چھوٹی اسکرین پر آیات کو خود fit کریں */
+  fitPage();
+}
+
+/* ---------------- SURAH BOX ---------------- */
+
+function makeSurahBox(
+  no,
+  name,
+  revelation,
+  info
+){
+
+  const ayahCount=
+    info
+    ?info.ayahCount
+    :"—";
+
+  const rukuCount=
+    info
+    ?info.rukuCount
+    :"—";
+
+  let type="—";
+
+  if(revelation==="Meccan"){
+    type="مکی";
+  }
+
+  if(revelation==="Medinan"){
+    type="مدنی";
+  }
+
+  /*
+    سورۃ التوبہ کے علاوہ ہر سورۃ میں
+    Bismillah صرف اسی Box میں ہوگی۔
+  */
+
+  const bismillah=
+    no!==9
+    ?`
+      <div class="bismillahBox">
+        <div class="bismillah">
+          بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ
+        </div>
+      </div>
+    `
+    :"";
+
+  return`
+
+    <div class="surahBox">
+
+      <div class="surahName">
+        سُورَةُ ${escapeHTML(name)}
+      </div>
+
+      <div class="meta">
+        ${type}
+        &nbsp; | &nbsp;
+        آیات: ${ayahCount}
+        &nbsp; | &nbsp;
+        رکوع: ${rukuCount}
+      </div>
+
+      ${bismillah}
+
+    </div>
+  `;
+}
+
+/* ---------------- FIT PAGE ---------------- */
+
+function fitPage(){
+
+  const sheet=
+    document.querySelector(".quranSheet");
+
+  if(!sheet)return;
+
+  const ayahs=
+    sheet.querySelectorAll(".ayah");
+
+  if(!ayahs.length)return;
+
+  let fontSize=
+    window.innerWidth<=420
+    ?22
+    :25;
+
+  let lineHeight=
+    window.innerWidth<=420
+    ?1.63
+    :1.72;
+
+  ayahs.forEach(a=>{
+
+    a.style.fontSize=fontSize+"px";
+    a.style.lineHeight=lineHeight;
+  });
+
+  let count=0;
+
+  while(
+    sheet.scrollHeight>sheet.clientHeight &&
+    fontSize>17 &&
+    count<15
+  ){
+
+    fontSize-=1;
+
+    lineHeight=
+      fontSize<=19
+      ?1.45
+      :1.58;
+
+    ayahs.forEach(a=>{
+
+      a.style.fontSize=fontSize+"px";
+      a.style.lineHeight=lineHeight;
+    });
+
+    count++;
+  }
+}
+
+/* ---------------- NEXT / PREVIOUS ---------------- */
+
+function nextPage(){
+
+  if(currentPage===0){
+
+    loadPage(1,"next");
+    return;
+  }
+
+  if(currentPage<604){
+
+    loadPage(
+      currentPage+1,
+      "next"
+    );
+  }
+}
+
+function previousPage(){
+
+  if(currentPage>1){
+
+    loadPage(
+      currentPage-1,
+      "prev"
+    );
+  }
+}
+
+/* ---------------- BOOKMARK ---------------- */
+
+function bookmarkPage(){
+
+  if(currentPage===0){
+
+    alert("ابھی Cover Page کھلا ہوا ہے۔");
+    return;
+  }
+
+  localStorage.setItem(
+    "quranBookmark",
+    currentPage
+  );
+
+  alert(
+    "صفحہ "+currentPage+
+    " محفوظ ہو گیا۔"
+  );
+}
+
+function goBookmark(){
+
+  const saved=
+    localStorage.getItem("quranBookmark");
+
+  if(!saved){
+
+    alert("ابھی کوئی صفحہ محفوظ نہیں ہے۔");
+    return;
+  }
+
+  loadPage(
+    Number(saved),
+    "next"
+  );
+}
+
+/* ---------------- AUDIO ---------------- */
+
+function playPage(){
+
+  if(!currentAyahs.length){
+
+    alert("پہلے قرآن کا صفحہ کھولیں۔");
+    return;
+  }
+
+  stopAudio();
+
+  audioList=
+    currentAyahs
+    .filter(a=>a.audio)
+    .map(a=>a.audio);
+
+  audioIndex=0;
+
+  playNextAudio();
+}
+
+function playNextAudio(){
+
+  if(audioIndex>=audioList.length){
+    return;
+  }
+
+  audioPlayer=
+    new Audio(audioList[audioIndex]);
+
+  audioPlayer.onended=()=>{
+
+    audioIndex++;
+
+    playNextAudio();
+  };
+
+  audioPlayer
+    .play()
+    .catch(()=>{});
+}
+
+function stopAudio(){
+
+  if(audioPlayer){
+
+    audioPlayer.pause();
+
+    audioPlayer.currentTime=0;
+
+    audioPlayer=null;
+  }
+}
+
+/* ---------------- SEARCH QURAN ---------------- */
+
+async function searchQuran(){
+
+  const word=
+    document
+    .getElementById("searchInput")
+    .value
+    .trim();
+
+  if(!word)return;
+
+  const resultBox=
+    document.getElementById("searchResults");
+
+  resultBox.style.display="block";
+
+  resultBox.innerHTML=
+    '<div class="loading">تلاش ہو رہی ہے...</div>';
+
+  try{
+
+    const res=await fetch(
+      API+
+      "/search/"+
+      encodeURIComponent(word)+
+      "/all/quran-uthmani"
+    );
+
+    if(!res.ok){
+      throw new Error();
+    }
+
+    const json=await res.json();
+
+    if(
+      !json.data ||
+      !json.data.matches
+    ){
+
+      resultBox.innerHTML=
+        "<div>کچھ نہیں ملا۔</div>";
+
+      return;
+    }
+
+    const matches=json.data.matches;
+
+    if(!matches.length){
+
+      resultBox.innerHTML=
+        "<div>یہ لفظ قرآن پاک میں نہیں ملا۔</div>";
+
+      return;
+    }
+
+    resultBox.innerHTML="";
+
+    matches.forEach(m=>{
+
+      const div=
+        document.createElement("div");
+
+      div.className="result";
+
+      div.innerHTML=`
+        <b>
+          ${escapeHTML(m.surah.name)}
+        </b>
+        — آیت ${m.numberInSurah}
+        <br>
+        ${escapeHTML(m.text)}
+      `;
+
+      resultBox.appendChild(div);
+    });
+
+  }catch(e){
+
+    resultBox.innerHTML=
+      "Search نہیں ہو سکی۔<br><br>"+
+      "Internet چیک کریں۔";
+  }
+}
+
+/* ---------------- LOADING ---------------- */
+
+function showLoading(){
+
+  pageEl.className="page";
+
+  pageEl.innerHTML=`
+    <div class="loading">
+      📖<br>
+      قرآن پاک لوڈ ہو رہا ہے...
+    </div>
+  `;
+}
+
+/* ---------------- ERROR ---------------- */
+
+function showError(msg){
+
+  pageEl.className="page";
+
+  pageEl.innerHTML=
+    '<div class="error">'+msg+'</div>';
+}
+
+/* ---------------- ESCAPE ---------------- */
+
+function escapeHTML(text){
+
+  return String(text)
+
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+
+    .replace(/>/g,"&gt;")
+
+    .replace(/"/g,"&quot;")
+
+    .replace(/'/g,"&#039;");
+}
+
+/* ---------------- SWIPE ---------------- */
+
+let startX=0;
+let startY=0;
+
+pageEl.addEventListener(
+  "touchstart",
+  function(e){
+
+    if(!e.touches.length)return;
+
+    startX=
+      e.touches[0].clientX;
+
+    startY=
+      e.touches[0].clientY;
+  },
+  {passive:true}
+);
+
+pageEl.addEventListener(
+  "touchend",
+  function(e){
+
+    if(!e.changedTouches.length)return;
+
+    const dx=
+      e.changedTouches[0].clientX-
+      startX;
+
+    const dy=
+      e.changedTouches[0].clientY-
+      startY;
+
+    if(
+      Math.abs(dx)>45 &&
+      Math.abs(dx)>Math.abs(dy)*1.2
+    ){
+
+      if(dx<0){
+
+        nextPage();
+
+      }else{
+
+        previousPage();
+      }
+    }
+  },
+  {passive:true}
+);
+
+/* ---------------- CLOSE MENU ---------------- */
+
+document.addEventListener(
+  "click",
+  function(e){
+
+    const menu=
+      document.getElementById("menu");
+
+    if(
+      menu.style.display==="block" &&
+      !menu.contains(e.target) &&
+      !e.target.closest(".topBtns")
+    ){
+
+      closeMenu();
+    }
+  }
+);
+
+/* ---------------- STARTUP ---------------- */
+
+if(
+  localStorage.getItem("quranDark")==="true"
+){
+
+  document.body.classList.add("dark");
+}
+
+loadSurahList();
+
+window.addEventListener(
+  "resize",
+  fitPage
+);
+
+</script>
+
+</body>
+</html>
