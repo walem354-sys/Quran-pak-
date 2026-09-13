@@ -1,0 +1,2157 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1.0,user-scalable=no">
+
+<title>القرآن الكريم — Al Quran-ul-Kareem</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap"
+rel="stylesheet">
+
+<style>
+
+*{
+box-sizing:border-box;
+-webkit-tap-highlight-color:transparent;
+}
+
+body{
+margin:0;
+background:#e8e1d0;
+color:#222;
+font-family:Arial,sans-serif;
+overflow:hidden;
+}
+
+body.dark{
+background:#151515;
+color:#eee;
+}
+
+
+/* HEADER */
+
+header{
+height:62px;
+background:#087443;
+color:white;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 10px;
+position:relative;
+z-index:10;
+}
+
+.title{
+font-size:20px;
+font-weight:bold;
+}
+
+.topBtns{
+display:flex;
+gap:6px;
+}
+
+.topBtns button{
+border:0;
+background:#ffffff22;
+color:white;
+border-radius:9px;
+width:40px;
+height:38px;
+font-size:20px;
+}
+
+
+/* SURAH SELECT */
+
+select{
+width:calc(100% - 20px);
+margin:8px 10px;
+height:42px;
+border-radius:10px;
+border:1px solid #aaa;
+padding:5px 10px;
+font-size:16px;
+background:white;
+}
+
+.dark select{
+background:#292929;
+color:white;
+}
+
+
+/* SEARCH */
+
+.searchBox{
+display:none;
+padding:8px 10px;
+background:#075c36;
+}
+
+.searchBox input{
+width:100%;
+height:40px;
+border:0;
+border-radius:9px;
+padding:8px;
+font-size:16px;
+}
+
+
+/* BOOK */
+
+#book{
+height:calc(100vh - 120px);
+margin:0 8px 8px;
+position:relative;
+
+background:
+linear-gradient(
+90deg,
+#d6c6a5,
+#fdf8e9 4%,
+#fffdf5 50%,
+#fdf8e9 96%,
+#d6c6a5
+);
+
+border-radius:8px;
+
+box-shadow:
+0 4px 20px #0005,
+inset 0 0 25px #8b765533;
+
+overflow:hidden;
+touch-action:pan-y;
+user-select:none;
+}
+
+.dark #book{
+background:
+linear-gradient(
+90deg,
+#242424,
+#303030 5%,
+#303030 50%,
+#303030 95%,
+#222
+);
+}
+
+
+/* PAGE */
+
+.page{
+width:100%;
+height:100%;
+
+overflow-y:auto;
+overflow-x:hidden;
+
+padding:5px 5px 55px;
+
+position:relative;
+
+touch-action:pan-y;
+
+scrollbar-width:none;
+}
+
+.page::-webkit-scrollbar{
+display:none;
+}
+
+
+/* PAGE TURN */
+
+.page.turnNext{
+animation:nextPage .38s ease;
+}
+
+.page.turnPrev{
+animation:prevPage .38s ease;
+}
+
+@keyframes nextPage{
+
+0%{
+transform:perspective(900px) rotateY(0);
+opacity:1;
+}
+
+50%{
+transform:perspective(900px) rotateY(-12deg);
+opacity:.55;
+}
+
+100%{
+transform:perspective(900px) rotateY(0);
+opacity:1;
+}
+
+}
+
+@keyframes prevPage{
+
+0%{
+transform:perspective(900px) rotateY(0);
+opacity:1;
+}
+
+50%{
+transform:perspective(900px) rotateY(12deg);
+opacity:.55;
+}
+
+100%{
+transform:perspective(900px) rotateY(0);
+opacity:1;
+}
+
+}
+
+
+/* COVER */
+
+.coverPage{
+height:100%;
+width:100%;
+position:relative;
+overflow:hidden;
+
+background:
+radial-gradient(
+circle at center,
+#fffdf2,
+#f8edcf 55%,
+#e4d1a0
+);
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+padding:12px;
+}
+
+.dark .coverPage{
+background:
+radial-gradient(
+circle at center,
+#403c2d,
+#292719 60%,
+#171717
+);
+}
+
+.coverFrame{
+width:100%;
+height:100%;
+
+border:3px solid #b28b3f;
+border-radius:18px;
+
+position:relative;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+box-shadow:
+inset 0 0 0 5px #f5e5b9,
+inset 0 0 30px #8d703333,
+0 4px 15px #0003;
+
+padding:18px;
+}
+
+.coverFrame:before,
+.coverFrame:after{
+content:"۞";
+position:absolute;
+font-family:"Amiri",serif;
+color:#a67c2c;
+font-size:45px;
+}
+
+.coverFrame:before{
+top:2px;
+left:10px;
+}
+
+.coverFrame:after{
+bottom:2px;
+right:10px;
+}
+
+.coverContent{
+width:100%;
+text-align:center;
+}
+
+.topAyahBox{
+display:inline-block;
+max-width:95%;
+
+padding:8px 16px;
+
+border:2px solid #b28b3f;
+border-radius:18px;
+
+background:
+linear-gradient(
+135deg,
+#075b36,
+#087443,
+#06492c
+);
+
+box-shadow:
+0 4px 12px #0004,
+inset 0 0 10px #ffffff18;
+
+margin-bottom:25px;
+}
+
+.topAyah{
+font-family:"Amiri",serif;
+color:#f5dc91;
+font-size:23px;
+line-height:1.8;
+font-weight:bold;
+}
+
+.mainTitleBox{
+width:100%;
+max-width:430px;
+
+margin:auto;
+
+padding:32px 15px 30px;
+
+border:4px solid #b28b3f;
+border-radius:38px;
+
+background:
+radial-gradient(
+circle at center,
+#0c7545,
+#075d37 60%,
+#043d26
+);
+
+position:relative;
+
+box-shadow:
+0 8px 25px #0005,
+inset 0 0 25px #ffffff12;
+}
+
+.mainTitleBox:before{
+content:"";
+
+position:absolute;
+
+top:9px;
+left:9px;
+right:9px;
+bottom:9px;
+
+border:1px solid #e1bd65;
+
+border-radius:30px;
+}
+
+.decoration{
+color:#e1bd65;
+font-size:30px;
+line-height:1;
+margin:2px 0 8px;
+font-family:"Amiri",serif;
+}
+
+.coverTitle{
+font-family:"Amiri",serif;
+
+color:#fff0bd;
+
+font-size:48px;
+
+font-weight:bold;
+
+line-height:1.5;
+
+text-shadow:0 2px 3px #0008;
+
+position:relative;
+}
+
+.coverEnglish{
+color:#e4c776;
+
+font-family:Georgia,serif;
+
+font-size:18px;
+
+font-weight:bold;
+
+letter-spacing:1px;
+
+margin-top:8px;
+
+direction:ltr;
+
+position:relative;
+}
+
+.coverBottom{
+margin-top:28px;
+
+font-family:"Amiri",serif;
+
+color:#765d2d;
+
+font-size:20px;
+}
+
+.dark .coverBottom{
+color:#dfc57d;
+}
+
+.startButton{
+margin-top:20px;
+
+border:2px solid #b28b3f;
+
+background:
+linear-gradient(
+135deg,
+#087443,
+#075c36
+);
+
+color:#fff3c4;
+
+border-radius:25px;
+
+padding:11px 25px;
+
+font-family:"Amiri",serif;
+
+font-size:19px;
+
+font-weight:bold;
+
+box-shadow:0 4px 12px #0004;
+}
+
+.startButton:active{
+transform:scale(.96);
+}
+
+
+/* TOP PAGE */
+
+.pageTop{
+display:grid;
+
+grid-template-columns:
+1fr 90px 1fr;
+
+gap:5px;
+
+align-items:center;
+
+padding:8px 2px 6px;
+}
+
+.pageTopBox{
+border:2px solid #b28b3f;
+
+background:#fff9e8;
+
+border-radius:18px;
+
+padding:5px 8px;
+
+text-align:center;
+
+font-family:"Amiri",serif;
+
+font-size:18px;
+
+font-weight:bold;
+
+box-shadow:0 2px 7px #0002;
+}
+
+.pageTopBox.center{
+background:#087443;
+
+color:#f9df91;
+
+border-radius:50px;
+
+font-family:Arial,sans-serif;
+
+font-size:15px;
+}
+
+.dark .pageTopBox{
+background:#34301f;
+color:#f1d78c;
+}
+
+.dark .pageTopBox.center{
+background:#087443;
+}
+
+
+/* QURAN SHEET */
+
+.quranSheet{
+border:5px double #9d7b36;
+
+border-radius:8px;
+
+padding:12px 10px 18px;
+
+background:
+radial-gradient(
+circle,
+#fffdf3,
+#f8edcf
+);
+
+box-shadow:
+0 5px 18px #0003,
+inset 0 0 30px #b59a5833;
+
+min-height:100%;
+}
+
+.dark .quranSheet{
+background:
+radial-gradient(
+circle,
+#393528,
+#28261e
+);
+
+border-color:#c5a85d;
+}
+
+
+/* SURAH BOX */
+
+.surahBox{
+border:3px solid #b28b3f;
+
+border-radius:26px;
+
+padding:12px 10px 14px;
+
+margin:2px 0 15px;
+
+background:
+linear-gradient(
+135deg,
+#fff8dc,
+#fffdf4,
+#f1dfae
+);
+
+text-align:center;
+
+box-shadow:0 4px 12px #0003;
+
+position:relative;
+}
+
+.dark .surahBox{
+background:
+linear-gradient(
+135deg,
+#403a27,
+#292719
+);
+
+border-color:#c9aa61;
+}
+
+.surahBox:before{
+content:"❖";
+
+position:absolute;
+
+left:10px;
+top:8px;
+
+color:#b28b3f;
+
+font-size:24px;
+}
+
+.surahBox:after{
+content:"❖";
+
+position:absolute;
+
+right:10px;
+top:8px;
+
+color:#b28b3f;
+
+font-size:24px;
+}
+
+.surahName{
+font-family:"Amiri",serif;
+
+font-size:34px;
+
+font-weight:bold;
+
+color:#075d37;
+
+line-height:1.4;
+}
+
+.dark .surahName{
+color:#e1c26f;
+}
+
+.meta{
+font-size:14px;
+
+margin:2px 0 8px;
+
+color:#555;
+}
+
+.dark .meta{
+color:#ddd;
+}
+
+
+/* BISMILLAH */
+
+.bismillahBox{
+border:2px solid #b28b3f;
+
+border-radius:28px;
+
+background:
+linear-gradient(
+135deg,
+#075c36,
+#087443,
+#06492c
+);
+
+padding:7px 8px;
+
+margin:8px auto 0;
+
+max-width:92%;
+
+box-shadow:
+inset 0 0 10px #ffffff18;
+}
+
+.bismillah{
+font-family:"Amiri",serif;
+
+font-size:30px;
+
+font-weight:bold;
+
+line-height:1.8;
+
+color:#f8e2a0;
+}
+
+
+/* AYAT */
+
+.ayah{
+font-family:"Amiri",serif;
+
+font-size:29px;
+
+line-height:2.05;
+
+text-align:right;
+
+margin:0;
+
+padding:10px 3px;
+
+color:#111;
+
+direction:rtl;
+
+border-bottom:1px solid #9d8a62;
+
+position:relative;
+}
+
+.dark .ayah{
+color:#f4f4f4;
+
+border-color:#777;
+}
+
+.ayah:last-of-type{
+border-bottom:0;
+}
+
+
+/* AYAH NUMBER */
+
+.ayahNum{
+display:inline-flex;
+
+width:32px;
+height:32px;
+
+border:2px solid #a58a4d;
+
+border-radius:50%;
+
+align-items:center;
+justify-content:center;
+
+font-family:Arial,sans-serif;
+
+font-size:13px;
+
+color:#765c28;
+
+margin:0 5px;
+
+vertical-align:middle;
+
+background:#fffaf0;
+}
+
+.dark .ayahNum{
+color:#e0c47d;
+
+border-color:#c9a95c;
+
+background:#302d22;
+}
+
+
+/* ALIF LAM MEEM */
+
+.opening{
+display:inline-block;
+
+font-family:"Amiri",serif;
+
+font-size:46px !important;
+
+font-weight:bold;
+
+color:#075d37;
+
+line-height:1.2;
+
+letter-spacing:1px;
+
+padding:0 8px;
+}
+
+.dark .opening{
+color:#e5c978;
+}
+
+
+/* BOTTOM */
+
+.pageBottom{
+display:grid;
+
+grid-template-columns:
+1fr 90px 1fr;
+
+gap:6px;
+
+align-items:center;
+
+margin-top:10px;
+}
+
+.bottomBox{
+border:2px solid #b28b3f;
+
+background:#fff9e8;
+
+border-radius:18px;
+
+padding:5px;
+
+text-align:center;
+
+font-family:"Amiri",serif;
+
+font-size:17px;
+}
+
+.dark .bottomBox{
+background:#34301f;
+color:#f1d78c;
+}
+
+.pageNumber{
+text-align:center;
+
+background:#087443;
+
+color:#f9df91;
+
+border:2px solid #b28b3f;
+
+border-radius:25px;
+
+padding:6px 4px;
+
+font-family:Arial,sans-serif;
+
+font-size:13px;
+}
+
+
+/* LOADING / ERROR */
+
+.loading{
+text-align:center;
+
+padding-top:100px;
+
+font-size:20px;
+
+font-family:"Amiri",serif;
+}
+
+.error{
+text-align:center;
+
+padding:50px 15px;
+
+font-size:18px;
+}
+
+
+/* SEARCH RESULTS */
+
+.searchResults{
+display:none;
+
+position:absolute;
+
+top:112px;
+
+left:10px;
+
+right:10px;
+
+bottom:10px;
+
+background:#fff;
+
+z-index:20;
+
+border-radius:12px;
+
+overflow:auto;
+
+padding:10px;
+}
+
+.dark .searchResults{
+background:#222;
+color:white;
+}
+
+.result{
+padding:10px;
+
+border-bottom:1px solid #ccc;
+
+font-family:"Amiri",serif;
+
+font-size:20px;
+}
+
+
+/* STATUS */
+
+.status{
+position:fixed;
+
+bottom:5px;
+
+left:50%;
+
+transform:translateX(-50%);
+
+background:#0009;
+
+color:#fff;
+
+padding:4px 10px;
+
+border-radius:15px;
+
+font-size:11px;
+
+z-index:30;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<div class="title">
+📖 القرآن الكريم
+</div>
+
+<div class="topBtns">
+
+<button onclick="toggleSearch()">
+🔎
+</button>
+
+<button onclick="toggleDark()">
+🌙
+</button>
+
+<button onclick="bookmarkPage()">
+🔖
+</button>
+
+<button onclick="playPage()">
+▶
+</button>
+
+</div>
+
+</header>
+
+
+<div class="searchBox" id="searchBox">
+
+<input
+id="searchInput"
+type="text"
+placeholder="قرآن میں لفظ تلاش کریں..."
+onkeydown="if(event.key==='Enter') searchQuran()">
+
+</div>
+
+
+<select
+id="surahSelect"
+onchange="openSurah(this.value)">
+
+<option value="">
+سورت منتخب کریں
+</option>
+
+</select>
+
+
+<div id="book">
+
+<div id="page" class="page">
+
+
+<!-- COVER PAGE -->
+
+<div class="coverPage">
+
+<div class="coverFrame">
+
+<div class="coverContent">
+
+
+<div class="topAyahBox">
+
+<div class="topAyah">
+لَا يَمَسُّهُ إِلَّا الْمُطَهَّرُونَ
+</div>
+
+</div>
+
+
+<div class="mainTitleBox">
+
+<div class="decoration">
+❖ ۞ ❖
+</div>
+
+<div class="coverTitle">
+القرآن الكريم
+</div>
+
+<div class="decoration">
+─── ۞ ───
+</div>
+
+<div class="coverEnglish">
+AL QURAN-UL-KAREEM
+</div>
+
+</div>
+
+
+<div class="coverBottom">
+كِتَابُ اللّٰهِ الْكَرِيمِ
+</div>
+
+
+<button
+class="startButton"
+onclick="startQuran()">
+
+📖 قرآن شروع کریں
+
+</button>
+
+
+</div>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+<div
+id="searchResults"
+class="searchResults">
+</div>
+
+
+</div>
+
+
+<div id="status" class="status">
+Cover
+</div>
+
+
+<script>
+
+
+/* API */
+
+const API="https://api.alquran.cloud/v1";
+
+
+/* APP STATE */
+
+let currentPage=0;
+
+let currentSurah=0;
+
+let surahCache={};
+
+let currentAyahs=[];
+
+let audioList=[];
+
+let audioIndex=0;
+
+let audioPlayer=null;
+
+
+/* ELEMENTS */
+
+const pageEl=
+document.getElementById("page");
+
+const statusEl=
+document.getElementById("status");
+
+const selectEl=
+document.getElementById("surahSelect");
+
+
+/* SURAH LIST */
+
+async function loadSurahList(){
+
+try{
+
+const res=
+await fetch(API+"/surah");
+
+const json=
+await res.json();
+
+json.data.forEach(s=>{
+
+const o=
+document.createElement("option");
+
+o.value=s.number;
+
+o.textContent=
+s.number+". "+
+s.name+
+" — "+
+s.englishName;
+
+selectEl.appendChild(o);
+
+});
+
+}catch(e){
+
+console.log(e);
+
+}
+
+}
+
+
+/* SURAH INFORMATION */
+
+async function getSurahInfo(no){
+
+if(surahCache[no])
+return surahCache[no];
+
+
+const res=
+await fetch(
+API+"/surah/"+no+"/quran-uthmani"
+);
+
+const json=
+await res.json();
+
+const data=json.data;
+
+
+let rukus=new Set();
+
+
+data.ayahs.forEach(a=>{
+
+if(
+a.ruku!==undefined &&
+a.ruku!==null &&
+a.ruku!==""
+){
+
+rukus.add(String(a.ruku));
+
+}
+
+});
+
+
+const info={
+
+number:data.number,
+
+name:data.name,
+
+englishName:data.englishName,
+
+revelation:data.revelationType,
+
+ayahCount:data.numberOfAyahs,
+
+rukuCount:rukus.size,
+
+ayahs:data.ayahs,
+
+firstPage:
+data.ayahs.length
+?data.ayahs[0].page
+:1
+
+};
+
+
+surahCache[no]=info;
+
+return info;
+
+}
+
+
+/* START */
+
+function startQuran(){
+
+loadPage(1,"next");
+
+}
+
+
+/* OPEN SURAH */
+
+async function openSurah(no){
+
+if(!no)
+return;
+
+currentSurah=
+Number(no);
+
+try{
+
+showLoading();
+
+const info=
+await getSurahInfo(currentSurah);
+
+currentPage=
+info.firstPage;
+
+await loadPage(
+currentPage,
+"next"
+);
+
+}catch(e){
+
+showError(
+"سورت لوڈ نہیں ہو سکی۔<br><br>"+
+"Internet چیک کریں اور دوبارہ کوشش کریں۔"
+);
+
+}
+
+}
+
+
+/* LOAD PAGE */
+
+async function loadPage(
+page,
+direction="next"
+){
+
+if(page<1||page>604)
+return;
+
+showLoading();
+
+try{
+
+const res=
+await fetch(
+API+"/page/"+page+"/quran-uthmani"
+);
+
+if(!res.ok)
+throw new Error("API error");
+
+const json=
+await res.json();
+
+if(
+!json.data ||
+!json.data.ayahs
+)
+throw new Error("No data");
+
+
+currentPage=page;
+
+currentAyahs=
+json.data.ayahs;
+
+
+renderPage(
+currentAyahs,
+page,
+direction
+);
+
+
+statusEl.textContent=
+"Page "+page;
+
+
+}catch(e){
+
+showError(
+"قرآن پاک لوڈ نہیں ہو سکا۔"+
+"<br><br>"+
+"Internet چیک کریں۔"+
+"<br><br>"+
+"<button onclick='loadPage("+
+page+
+",\""+
+direction+
+"\")'>"+
+"دوبارہ کوشش کریں"+
+"</button>"
+);
+
+}
+
+}
+
+
+/* HIGHLIGHT ALIF LAM MEEM */
+
+function highlightOpening(text){
+
+const openings=[
+
+"الٓمٓ",
+"الٓم",
+"المٓ",
+"الم",
+"الٓر",
+"الر",
+"الٓمر",
+"الرٓ",
+"كهيعص",
+"طه",
+"طسم",
+"طس",
+"يس",
+"حم",
+"حمٓ",
+"عسق",
+"ق",
+"ن"
+
+];
+
+
+let safe=
+escapeHTML(text);
+
+
+for(
+const word of openings
+){
+
+if(
+safe.startsWith(word)
+){
+
+const rest=
+safe.substring(
+word.length
+);
+
+return `
+<span class="opening">
+${word}
+</span>${rest}
+`;
+
+}
+
+}
+
+
+return safe;
+
+}
+
+
+/* RENDER PAGE */
+
+function renderPage(
+ayahs,
+pageNo,
+direction
+){
+
+pageEl.className="page";
+
+
+void pageEl.offsetWidth;
+
+
+pageEl.classList.add(
+direction==="next"
+?"turnNext"
+:"turnPrev"
+);
+
+
+const first=
+ayahs[0] || {};
+
+
+const firstSurah=
+first.surah || {};
+
+
+const juz=
+first.juz!==undefined
+?first.juz
+:"—";
+
+
+const manzil=
+first.manzil!==undefined
+?first.manzil
+:"—";
+
+
+let html=`
+
+<div class="pageTop">
+
+<div class="pageTopBox">
+پارہ ${escapeHTML(juz)}
+</div>
+
+<div class="pageTopBox center">
+Page ${pageNo}
+</div>
+
+<div class="pageTopBox">
+${escapeHTML(
+firstSurah.name || "قرآن"
+)}
+</div>
+
+</div>
+
+
+<div class="quranSheet">
+`;
+
+
+/*
+صرف سورۃ کی پہلی آیت پر
+Surah Box دکھائیں۔
+*/
+
+ayahs.forEach(a=>{
+
+
+const s=
+a.surah || {};
+
+
+const isSurahStart=
+a.numberInSurah===1;
+
+
+if(isSurahStart){
+
+const info=
+surahCache[s.number];
+
+
+html+=makeSurahBox(
+
+s.number,
+
+s.name,
+
+s.revelationType,
+
+info
+
+);
+
+}
+
+
+let text=
+a.text || "";
+
+
+/*
+بسم اللہ سورۃ باکس میں
+پہلے ہی موجود ہے۔
+*/
+
+if(
+isSurahStart &&
+s.number!==9
+){
+
+text=
+removeBismillah(text);
+
+}
+
+
+/*
+الٓمٓ وغیرہ نمایاں کریں۔
+*/
+
+const safeText=
+highlightOpening(text);
+
+
+/*
+اگر صرف بسم اللہ تھی اور
+اس کے بعد کچھ نہیں بچا تو
+خالی آیت نہ دکھائیں۔
+*/
+
+if(
+!text.trim() &&
+isSurahStart
+){
+
+return;
+
+}
+
+
+html+=`
+
+<div class="ayah">
+
+${safeText}
+
+<span class="ayahNum">
+${a.numberInSurah}
+</span>
+
+</div>
+
+`;
+
+});
+
+
+html+=`
+
+</div>
+
+
+<div class="pageBottom">
+
+<div class="bottomBox">
+منزل ${escapeHTML(manzil)}
+</div>
+
+<div class="pageNumber">
+Page ${pageNo}
+</div>
+
+<div class="bottomBox">
+پارہ ${escapeHTML(juz)}
+</div>
+
+</div>
+
+`;
+
+
+pageEl.innerHTML=
+html;
+
+
+/*
+صفحہ ہمیشہ اوپر سے شروع ہوگا،
+لیکن scrolling موجود رہے گی۔
+*/
+
+pageEl.scrollTop=0;
+
+}
+
+
+/* SURAH BOX */
+
+function makeSurahBox(
+no,
+name,
+revelation,
+info
+){
+
+let ayahCount=
+info
+?info.ayahCount
+:"—";
+
+
+let rukuCount=
+info
+?info.rukuCount
+:"—";
+
+
+let type=
+revelation==="Meccan"
+?"مکی"
+:
+revelation==="Medinan"
+?"مدنی"
+:
+revelation||"—";
+
+
+/*
+سورۃ 9 کے علاوہ
+بسم اللہ ایک ہی بار دکھائیں۔
+*/
+
+let bismillah=
+no!==9
+?
+`
+<div class="bismillahBox">
+
+<div class="bismillah">
+بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ
+</div>
+
+</div>
+`
+:"";
+
+
+return `
+
+<div class="surahBox">
+
+<div class="surahName">
+سُورَةُ ${escapeHTML(name)}
+</div>
+
+<div class="meta">
+
+${type}
+
+&nbsp; | &nbsp;
+
+آیات: ${ayahCount}
+
+&nbsp; | &nbsp;
+
+رکوع: ${rukuCount}
+
+</div>
+
+${bismillah}
+
+</div>
+
+`;
+
+}
+
+
+/* REMOVE BISMILLAH */
+
+function removeBismillah(text){
+
+const patterns=[
+
+/^بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ\s*/,
+
+/^بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ\s*/,
+
+/^بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ\s*/,
+
+/^بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيمِ\s*/,
+
+/^بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيْمِ\s*/
+
+];
+
+
+for(
+const p of patterns
+){
+
+if(p.test(text))
+return text.replace(p,"");
+
+}
+
+
+return text;
+
+}
+
+
+/* ESCAPE HTML */
+
+function escapeHTML(text){
+
+return String(text)
+
+.replace(/&/g,"&amp;")
+
+.replace(/</g,"&lt;")
+
+.replace(/>/g,"&gt;")
+
+.replace(/"/g,"&quot;")
+
+.replace(/'/g,"&#039;");
+
+}
+
+
+/* LOADING */
+
+function showLoading(){
+
+pageEl.className="page";
+
+pageEl.innerHTML=`
+
+<div class="loading">
+
+📖 قرآن پاک لوڈ ہو رہا ہے...
+
+<br>
+
+براہ کرم انتظار کریں
+
+</div>
+
+`;
+
+}
+
+
+/* ERROR */
+
+function showError(msg){
+
+pageEl.innerHTML=
+`
+<div class="error">
+${msg}
+</div>
+`;
+
+}
+
+
+/* SWIPE */
+
+let startX=0;
+
+let startY=0;
+
+let isTouching=false;
+
+
+pageEl.addEventListener(
+"touchstart",
+e=>{
+
+if(!e.touches.length)
+return;
+
+startX=
+e.touches[0].clientX;
+
+startY=
+e.touches[0].clientY;
+
+isTouching=true;
+
+},
+{passive:true}
+);
+
+
+pageEl.addEventListener(
+"touchend",
+e=>{
+
+if(!isTouching)
+return;
+
+isTouching=false;
+
+if(!e.changedTouches.length)
+return;
+
+
+const dx=
+e.changedTouches[0].clientX-startX;
+
+const dy=
+e.changedTouches[0].clientY-startY;
+
+
+if(
+Math.abs(dx)>45 &&
+Math.abs(dx)>Math.abs(dy)*1.2
+){
+
+if(dx<0)
+nextPage();
+
+else
+previousPage();
+
+}
+
+},
+{passive:true}
+);
+
+
+/* NEXT */
+
+function nextPage(){
+
+if(currentPage===0){
+
+loadPage(1,"next");
+
+return;
+
+}
+
+if(currentPage<604){
+
+loadPage(
+currentPage+1,
+"next"
+);
+
+}
+
+}
+
+
+/* PREVIOUS */
+
+function previousPage(){
+
+if(currentPage>1){
+
+loadPage(
+currentPage-1,
+"prev"
+);
+
+}
+
+}
+
+
+/* DARK MODE */
+
+function toggleDark(){
+
+document.body.classList.toggle("dark");
+
+localStorage.setItem(
+"quranDark",
+document.body.classList.contains("dark")
+);
+
+}
+
+
+/* SEARCH BOX */
+
+function toggleSearch(){
+
+const box=
+document.getElementById(
+"searchBox"
+);
+
+
+if(
+box.style.display==="block"
+){
+
+box.style.display="none";
+
+}else{
+
+box.style.display="block";
+
+document
+.getElementById("searchInput")
+.focus();
+
+}
+
+}
+
+
+/* SEARCH */
+
+async function searchQuran(){
+
+const word=
+document
+.getElementById("searchInput")
+.value
+.trim();
+
+
+if(!word)
+return;
+
+
+const resultBox=
+document.getElementById(
+"searchResults"
+);
+
+
+resultBox.style.display=
+"block";
+
+
+resultBox.innerHTML=
+`
+<div class="loading">
+تلاش ہو رہی ہے...
+</div>
+`;
+
+
+try{
+
+const res=
+await fetch(
+API+
+"/search/"+
+encodeURIComponent(word)+
+"/all/quran-uthmani"
+);
+
+
+const json=
+await res.json();
+
+
+if(
+!json.data ||
+!json.data.matches
+){
+
+resultBox.innerHTML=
+"<div>کچھ نہیں ملا۔</div>";
+
+return;
+
+}
+
+
+const matches=
+json.data.matches;
+
+
+if(!matches.length){
+
+resultBox.innerHTML=
+"<div>یہ لفظ قرآن پاک میں نہیں ملا۔</div>";
+
+return;
+
+}
+
+
+resultBox.innerHTML="";
+
+
+matches.forEach(m=>{
+
+const div=
+document.createElement("div");
+
+
+div.className="result";
+
+
+div.innerHTML=
+
+`<b>
+${escapeHTML(m.surah.name)}
+</b>
+
+— آیت ${m.numberInSurah}
+
+<br>
+
+${escapeHTML(m.text)}`;
+
+
+resultBox.appendChild(div);
+
+});
+
+
+}catch(e){
+
+resultBox.innerHTML=
+"Search نہیں ہو سکی۔ Internet چیک کریں۔";
+
+}
+
+}
+
+
+/* BOOKMARK */
+
+function bookmarkPage(){
+
+if(currentPage===0){
+
+alert(
+"ابھی Cover Page کھلا ہوا ہے۔"
+);
+
+return;
+
+}
+
+
+localStorage.setItem(
+"quranBookmark",
+currentPage
+);
+
+
+alert(
+"Page "+
+currentPage+
+" Bookmark ہو گیا۔"
+);
+
+}
+
+
+/* AUDIO */
+
+function playPage(){
+
+if(!currentAyahs.length)
+return;
+
+
+stopAudio();
+
+
+audioList=
+currentAyahs
+
+.filter(a=>a.audio)
+
+.map(a=>a.audio);
+
+
+audioIndex=0;
+
+
+playNextAudio();
+
+}
+
+
+/* PLAY NEXT AUDIO */
+
+function playNextAudio(){
+
+if(
+audioIndex>=audioList.length
+)
+return;
+
+
+audioPlayer=
+new Audio(
+audioList[audioIndex]
+);
+
+
+audioPlayer.onended=()=>{
+
+audioIndex++;
+
+playNextAudio();
+
+};
+
+
+audioPlayer
+.play()
+.catch(
+()=>console.log(
+"Audio blocked"
+)
+);
+
+}
+
+
+/* STOP AUDIO */
+
+function stopAudio(){
+
+if(audioPlayer){
+
+audioPlayer.pause();
+
+audioPlayer.currentTime=0;
+
+audioPlayer=null;
+
+}
+
+}
+
+
+/* RESTORE DARK MODE */
+
+if(
+localStorage.getItem(
+"quranDark"
+)==="true"
+){
+
+document.body.classList.add(
+"dark"
+);
+
+}
+
+
+/* LOAD SURAH LIST */
+
+loadSurahList();
+
+
+</script>
+
+
+</body>
+
+</html>
