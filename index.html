@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+
+<title>القرآن الكريم — Al Quran-ul-Kareem</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent
+}
+
+body{
+  margin:0;
+  background:#e8e1d0;
+  color:#222;
+  font-family:Arial,sans-serif;
+  overflow:hidden
+}
+
+body.dark{
+  background:#151515;
+  color:#eee
+}
+
+header{
+  height:62px;
+  background:#087443;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 10px;
+  position:relative;
+  z-index:10
+}
+
+.title{
+  font-size:20px;
+  font-weight:bold
+}
+
+.topBtns{
+  display:flex;
+  gap:6px
+}
+
+.topBtns button{
+  border:0;
+  background:#ffffff22;
+  color:white;
+  border-radius:9px;
+  width:40px;
+  height:38px;
+  font-size:20px
+}
+
+select{
+  width:calc(100% - 20px);
+  margin:8px 10px;
+  height:42px;
+  border-radius:10px;
+  border:1px solid #aaa;
+  padding:5px 10px;
+  font-size:16px;
+  background:white
+}
+
+.dark select{
+  background:#292929;
+  color:white
+}
+
+.searchBox{
+  display:none;
+  padding:8px 10px;
+  background:#075c36
+}
+
+.searchBox input{
+  width:100%;
+  height:40px;
+  border:0;
+  border-radius:9px;
+  padding:8px;
+  font-size:16px
+}
+
+#book{
+  height:calc(100vh - 120px);
+  margin:0 8px 8px;
+  position:relative;
+  background:linear-gradient(
+    90deg,
+    #d6c6a5,
+    #fdf8e9 4%,
+    #fffdf5 50%,
+    #fdf8e9 96%,
+    #d6c6a5
+  );
+  border-radius:8px;
+  box-shadow:
+    0 4px 20px #0005,
+    inset 0 0 25px #8b765533;
+  overflow:hidden;
+  touch-action:pan-y;
+  user-select:none
+}
+
+.dark #book{
+  background:linear-gradient(
+    90deg,
+    #242424,
+    #303030 5%,
+    #303030 50%,
+    #303030 95%,
+    #222
+  )
+}
+
+.page{
+  height:100%;
+  overflow-y:auto;
+  overflow-x:hidden;
+  padding:0 10px 35px;
+  scrollbar-width:none
+}
+
+.page::-webkit-scrollbar{
+  display:none
+}
+
+.page.turnNext{
+  animation:nextPage .38s ease
+}
+
+.page.turnPrev{
+  animation:prevPage .38s ease
+}
+
+@keyframes nextPage{
+  0%{
+    transform:perspective(900px) rotateY(0);
+    opacity:1
+  }
+  50%{
+    transform:perspective(900px) rotateY(-12deg);
+    opacity:.55
+  }
+  100%{
+    transform:perspective(900px) rotateY(0);
+    opacity:1
+  }
+}
+
+@keyframes prevPage{
+  0%{
+    transform:perspective(900px) rotateY(0);
+    opacity:1
+  }
+  50%{
+    transform:perspective(900px) rotateY(12deg);
+    opacity:.55
+  }
+  100%{
+    transform:perspective(900px) rotateY(0);
+    opacity:1
+  }
+}
+
+/* COVER */
+
+.coverPage{
+  height:100%;
+  width:100%;
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(
+      circle at center,
+      #fffdf2,
+      #f8edcf 55%,
+      #e4d1a0
+    );
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:12px
+}
+
+.dark .coverPage{
+  background:
+    radial-gradient(
+      circle at center,
+      #403c2d,
+      #292719 60%,
+      #171717
+    )
+}
+
+.coverFrame{
+  width:100%;
+  height:100%;
+  border:3px solid #b28b3f;
+  border-radius:18px;
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:
+    inset 0 0 0 5px #f5e5b9,
+    inset 0 0 30px #8d703333,
+    0 4px 15px #0003;
+  padding:18px
+}
+
+.coverFrame:before,
+.coverFrame:after{
+  content:"۞";
+  position:absolute;
+  font-family:"Amiri",serif;
+  color:#a67c2c;
+  font-size:45px
+}
+
+.coverFrame:before{
+  top:2px;
+  left:10px
+}
+
+.coverFrame:after{
+  bottom:2px;
+  right:10px
+}
+
+.coverContent{
+  width:100%;
+  text-align:center
+}
+
+.topAyahBox{
+  display:inline-block;
+  max-width:95%;
+  padding:8px 16px;
+  border:2px solid #b28b3f;
+  border-radius:18px;
+  background:
+    linear-gradient(
+      135deg,
+      #075b36,
+      #087443,
+      #06492c
+    );
+  box-shadow:
+    0 4px 12px #0004,
+    inset 0 0 10px #ffffff18;
+  margin-bottom:25px
+}
+
+.topAyah{
+  font-family:"Amiri",serif;
+  color:#f5dc91;
+  font-size:23px;
+  line-height:1.8;
+  font-weight:bold
+}
+
+.mainTitleBox{
+  width:100%;
+  max-width:430px;
+  margin:auto;
+  padding:32px 15px 30px;
+  border:4px solid #b28b3f;
+  border-radius:38px;
+  background:
+    radial-gradient(
+      circle at center,
+      #0c7545,
+      #075d37 60%,
+      #043d26
+    );
+  position:relative;
+  box-shadow:
+    0 8px 25px #0005,
+    inset 0 0 25px #ffffff12
+}
+
+.mainTitleBox:before{
+  content:"";
+  position:absolute;
+  top:9px;
+  left:9px;
+  right:9px;
+  bottom:9px;
+  border:1px solid #e1bd65;
+  border-radius:30px
+}
+
+.decoration{
+  color:#e1bd65;
+  font-size:30px;
+  line-height:1;
+  margin:2px 0 8px;
+  font-family:"Amiri",serif
+}
+
+.coverTitle{
+  font-family:"Amiri",serif;
+  color:#fff0bd;
+  font-size:48px;
+  font-weight:bold;
+  line-height:1.5;
+  text-shadow:0 2px 3px #0008;
+  position:relative
+}
+
+.coverEnglish{
+  color:#e4c776;
+  font-family:Georgia,serif;
+  font-size:18px;
+  font-weight:bold;
+  letter-spacing:1px;
+  margin-top:8px;
+  direction:ltr;
+  position:relative
+}
+
+.coverBottom{
+  margin-top:28px;
+  font-family:"Amiri",serif;
+  color:#765d2d;
+  font-size:20px
+}
+
+.dark .coverBottom{
+  color:#dfc57d
+}
+
+.startButton{
+  margin-top:20px;
+  border:2px solid #b28b3f;
+  background:
+    linear-gradient(
+      135deg,
+      #087443,
+      #075c36
+    );
+  color:#fff3c4;
+  border-radius:25px;
+  padding:11px 25px;
+  font-family:"Amiri",serif;
+  font-size:19px;
+  font-weight:bold;
+  box-shadow:0 4px 12px #0004
+}
+
+.startButton:active{
+  transform:scale(.96)
+}
+
+/* TOP INFORMATION */
+
+.pageTop{
+  display:grid;
+  grid-template-columns:1fr 90px 1fr;
+  gap:5px;
+  align-items:center;
+  padding:8px 2px 6px
+}
+
+.pageTopBox{
+  border:2px solid #b28b3f;
+  background:#fff9e8;
+  border-radius:18px;
+  padding:5px 8px;
+  text-align:center;
+  font-family:"Amiri",serif;
+  font-size:18px;
+  font-weight:bold;
+  box-shadow:0 2px 7px #0002
+}
+
+.pageTopBox.center{
+  background:#087443;
+  color:#f9df91;
+  border-radius:50px;
+  font-family:Arial,sans-serif;
+  font-size:15px
+}
+
+.dark .pageTopBox{
+  background:#34301f;
+  color:#f1d78c
+}
+
+.dark .pageTopBox.center{
+  background:#087443
+}
+
+/* QURAN SHEET */
+
+.quranSheet{
+  border:5px double #9d7b36;
+  border-radius:8px;
+  padding:12px 10px 18px;
+  background:
+    radial-gradient(
+      circle,
+      #fffdf3,
+      #f8edcf
+    );
+  box-shadow:
+    0 5px 18px #0003,
+    inset 0 0 30px #b59a5833;
+  min-height:100%;
+  position:relative
+}
+
+.quranSheet:before{
+  content:"۞";
+  position:absolute;
+  top:4px;
+  left:7px;
+  font-family:"Amiri",serif;
+  font-size:28px;
+  color:#b28b3f
+}
+
+.quranSheet:after{
+  content:"۞";
+  position:absolute;
+  bottom:4px;
+  right:7px;
+  font-family:"Amiri",serif;
+  font-size:28px;
+  color:#b28b3f
+}
+
+.dark .quranSheet{
+  background:
+    radial-gradient(
+      circle,
+      #393528,
+      #28261e
+    );
+  border-color:#c5a85d
+}
+
+/* SURAH BOX */
+
+.surahBox{
+  border:3px solid #b28b3f;
+  border-radius:26px;
+  padding:12px 10px 14px;
+  margin:2px 0 15px;
+  background:
+    linear-gradient(
+      135deg,
+      #fff8dc,
+      #fffdf4,
+      #f1dfae
+    );
+  text-align:center;
+  box-shadow:0 4px 12px #0003;
+  position:relative
+}
+
+.dark .surahBox{
+  background:
+    linear-gradient(
+      135deg,
+      #403a27,
+      #292719
+    );
+  border-color:#c9aa61
+}
+
+.surahBox:before{
+  content:"❖";
+  position:absolute;
+  left:10px;
+  top:8px;
+  color:#b28b3f;
+  font-size:24px
+}
+
+.surahBox:after{
+  content:"❖";
+  position:absolute;
+  right:10px;
+  top:8px;
+  color:#b28b3f;
+  font-size:24px
+}
+
+.surahName{
+  font-family:"Amiri",serif;
+  font-size:34px;
+  font-weight:bold;
+  color:#075d37;
+  line-height:1.4
+}
+
+.dark .surahName{
+  color:#e1c26f
+}
+
+.meta{
+  font-size:14px;
+  margin:2px 0 8px;
+  color:#555
+}
+
+.dark .meta{
+  color:#ddd
+}
+
+/* BISMILLAH ONLY HERE */
+
+.bismillahBox{
+  border:2px solid #b28b3f;
+  border-radius:28px;
+  background:
+    linear-gradient(
+      135deg,
+      #075c36,
+      #087443,
+      #06492c
+    );
+  padding:7px 8px;
+  margin:8px auto 0;
+  max-width:92%;
+  box-shadow:inset 0 0 10px #ffffff18
+}
+
+.bismillah{
+  font-family:"Amiri",serif;
+  font-size:30px;
+  font-weight:bold;
+  line-height:1.8;
+  color:#f8e2a0
+}
+
+/* AYAT */
+
+.ayah{
+  font-family:"Amiri",serif;
+  font-size:29px;
+  line-height:2.05;
+  text-align:right;
+  margin:0;
+  padding:10px 3px;
+  color:#111;
+  direction:rtl;
+  border-bottom:1px solid #9d8a62;
+  position:relative
+}
+
+.dark .ayah{
+  color:#f4f4f4;
+  border-color:#777
+}
+
+.ayah:last-of-type{
+  border-bottom:0
+}
+
+.ayahNum{
+  display:inline-flex;
+  width:32px;
+  height:32px;
+  border:2px solid #a58a4d;
+  border-radius:50%;
+  align-items:center;
+  justify-content:center;
+  font-family:Arial,sans-serif;
+  font-size:13px;
+  color:#765c28;
+  margin:0 5px;
+  vertical-align:middle;
+  background:#fffaf0
+}
+
+.dark .ayahNum{
+  color:#e0c47d;
+  border-color:#c9a95c;
+  background:#302d22
+}
+
+/* OPENING LETTERS */
+
+.openingLetters{
+  display:inline-block;
+  font-family:"Amiri",serif;
+  font-size:43px;
+  font-weight:bold;
+  color:#075d37;
+  line-height:1.5;
+  margin-left:5px
+}
+
+.dark .openingLetters{
+  color:#e2c36e
+}
+
+/* BOTTOM */
+
+.pageBottom{
+  display:grid;
+  grid-template-columns:1fr 90px 1fr;
+  gap:6px;
+  align-items:center;
+  margin-top:10px
+}
+
+.bottomBox{
+  border:2px solid #b28b3f;
+  background:#fff9e8;
+  border-radius:18px;
+  padding:5px;
+  text-align:center;
+  font-family:"Amiri",serif;
+  font-size:17px
+}
+
+.dark .bottomBox{
+  background:#34301f;
+  color:#f1d78c
+}
+
+.pageNumber{
+  text-align:center;
+  background:#087443;
+  color:#f9df91;
+  border:2px solid #b28b3f;
+  border-radius:25px;
+  padding:6px 4px;
+  font-family:Arial,sans-serif;
+  font-size:13px
+}
+
+.loading{
+  text-align:center;
+  padding-top:
