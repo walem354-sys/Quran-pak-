@@ -1,0 +1,11 @@
+{
+  "name": "القرآن الكريم — Al Quran-ul-Kareem",
+  "short_name": "قرآن پاک",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#edf1ec",
+  "theme_color": "#075d37",
+  "lang": "ur",
+  "dir": "rtl",
+  "icons": []
+}
